@@ -1,6 +1,5 @@
 from flask import Flask
 import os
-import mongoengine
 
 
 def create_app(test_config=None):
@@ -29,8 +28,9 @@ def create_app(test_config=None):
     except OSError:
         pass
 
-    import dashboard
+    from controllers import dashboard, templates
     app.register_blueprint(dashboard.bp)
+    app.register_blueprint(templates.bp)
     app.add_url_rule('/', endpoint='index')
 
     return app

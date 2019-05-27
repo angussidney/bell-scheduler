@@ -1,0 +1,19 @@
+<!doctype html>
+<head>
+    <title>{% block title %}{% endblock %} - Bell Scheduler</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='vendor/spectre.min.css') }}">
+    <link rel="stylesheet" href="{{ url_for('static', filename='vendor/icons.min.css') }}">
+    <link rel="stylesheet" href="{{ url_for('static', filename='main.css') }}">
+</head>
+<body>
+    <div class="container grid-lg">
+        {% for message in get_flashed_messages() %}
+            <div class="flash">{{ message }}</div>
+        {% endfor %}
+        <header class="navbar" style="margin-bottom: 1.5rem">
+            TODO Put the navbar here
+        </header>
+        {% block content %}{% endblock %}
+    </div>
+    <script src="{{ url_for('static', filename='main.js') }}"></script>
+</body>
