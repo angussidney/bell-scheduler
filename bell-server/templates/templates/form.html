@@ -10,6 +10,7 @@
                 <input class="form-input" name="name" id="name" placeholder="Early assembly" required>
             </div>
         </div>
+
         <div class="form-group"> <!-- Apply for... -->
             <label class="form-checkbox">
                 <input type="checkbox" name="apply">
@@ -28,5 +29,7 @@
                 {% endfor %}
             </div>
         </div>
+
+        {% include "_bells.html" %}
     </form>
 {% endblock %}
