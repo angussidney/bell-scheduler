@@ -24,10 +24,9 @@
     <div class="panel-footer">
         <div id="addnew" class="container">
             <div class="columns">
+                <input class="form-input column col-3" name="bell-time" id="bell-time" placeholder="08:55 AM">
                 <input class="form-input column col-3" name="bell-name" id="bell-name" placeholder="Bell name">
-                <input class="form-input column col-3" type="date" name="bell-date" id="bell-date"
-                       placeholder="Date">
-                <select class="form-select column col-3" name="bell-sound">
+                <select class="form-select column col-3" name="bell-sound" id="bell-file">
                     <option value="default">Default</option>
                 </select>
                 <div class="column col-2"></div>
@@ -37,8 +36,6 @@
         <div id="editexisting" class="d-hide">
             <form id="editexisting_form" action="#" onsubmit="">
                 <button class="btn btn-error" onclick="delete_bells()">Delete</button>
-                <button class="btn"><i class="icon icon-arrow-up"></i></button> <!-- Up -->
-                <button class="btn"><i class="icon icon-arrow-down"></i></button> <!-- Down -->
                 <button class="btn btn-primary">Edit</button>
             </form>
         </div>
