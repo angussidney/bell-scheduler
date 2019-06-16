@@ -3,7 +3,7 @@
         <div class="panel-title">Bell schedule</div>
     </div>
     <div class="panel-body">
-        <table class="table table-striped table-hover">
+        <table class="table table-hover">
             <thead>
                 <tr>
                     <th>Time</th>
@@ -13,31 +13,28 @@
             </thead>
             <tbody id="bell-list">
                 <tr class="">
-                    <td>08:47 AM</td>
+                    <td>08:47</td>
                     <td>Period 1</td>
                     <td>Default</td>
                 </tr>
             </tbody>
-
         </table>
     </div>
     <div class="panel-footer">
         <div id="addnew" class="container">
             <div class="columns">
-                <input class="form-input column col-3" name="bell-time" id="bell-time" placeholder="08:55 AM">
-                <input class="form-input column col-3" name="bell-name" id="bell-name" placeholder="Bell name">
-                <select class="form-select column col-3" name="bell-sound" id="bell-file">
-                    <option value="default">Default</option>
+                <input class="form-input column col-3" id="bell-time" required placeholder="13:55">
+                <input class="form-input column col-3" id="bell-name" required placeholder="Bell name">
+                <select class="form-select column col-3" id="bell-file">
+                    <option value="default" selected>Default</option>
                 </select>
                 <div class="column col-2"></div>
-                <button class="btn btn-primary column col-1" onclick="add_bells()">Add</button>
+                <button class="btn btn-primary column col-1" type="button" id="add" onclick="add_bells()">Add</button>
             </div>
         </div>
         <div id="editexisting" class="d-hide">
-            <form id="editexisting_form" action="#" onsubmit="">
-                <button class="btn btn-error" onclick="delete_bells()">Delete</button>
-                <button class="btn btn-primary">Edit</button>
-            </form>
+            <button class="btn btn-error" type="button" onclick="delete_bells()">Delete</button>
+            <button class="btn btn-primary" type="button" id="edit" onclick="edit_bells()">Edit</button>
         </div>
     </div>
 </div>

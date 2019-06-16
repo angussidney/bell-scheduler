@@ -15,5 +15,6 @@
         </header>
         {% block content %}{% endblock %}
     </div>
+    <script src="{{ url_for('static', filename='vendor/cleave.js') }}"></script>
     <script src="{{ url_for('static', filename='main.js') }}" defer></script>
 </body>
