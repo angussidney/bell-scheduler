@@ -15,7 +15,7 @@ class Bell(EmbeddedDocument):
 
 class BellSchedule(Document):
     name = StringField(required=True)  # Human readable name
-    times = EmbeddedDocumentListField(Bell)
+    bells = EmbeddedDocumentListField(Bell)
 
     meta = {'allow_inheritance': True}
 

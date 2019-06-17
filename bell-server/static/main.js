@@ -158,3 +158,26 @@ document.getElementById("apply").onclick = function (ev) {
 function toggle_modal(id) {
     document.getElementById(id).classList.toggle("active");
 }
+
+function assemble_data() {
+    all_bells.forEach(function (bell) {
+        // Surely there's a better way to do this without repeating myself?
+        let time = document.createElement('input');
+        time.type = 'hidden';
+        time.name = 'bell_times';
+        time.value = bell.time;
+        document.forms['template_form'].appendChild(time);
+
+        let name = document.createElement('input');
+        name.type = 'hidden';
+        name.name = 'bell_names';
+        name.value = bell.name;
+        document.forms['template_form'].appendChild(time);
+
+        let filepath = document.createElement('input');
+        filepath.type = 'hidden';
+        filepath.name = 'bell_filepaths';
+        filepath.value = bell.filepath;
+        document.forms['template_form'].appendChild(time);
+    });
+}

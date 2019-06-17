@@ -1,0 +1,8 @@
+ - Test all javascript/HTML for IE11 compatiability
+ - Use a different WSGI for production
+ - Find a way to import the models from a common directory
+ - Common venv?
+ - https://developer.mozilla.org/en-US/docs/Learn/HTML/Forms/Sending_and_retrieving_form_data#Common_security_concerns
+ - MongoDB password
+ - requirements.txt
+ - Setup instructions

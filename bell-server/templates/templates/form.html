@@ -3,8 +3,8 @@
 {% block content %}
     <h1>{% block heading %}{% endblock %}</h1>
 
-    <form method="post" class="form-horizontal">
-        <div class="form-group"> <!-- Name -->
+    <form method="post" action="/templates/create" onsubmit="assemble_data()" class="form-horizontal" id="template_form">
+        <div class="form-group add_margin"> <!-- Name -->
             <div class="col-4 col-sm-12"><label class="form-label" for="name">Name</label></div>
             <div class="col-8 col-sm-12">
                 <input class="form-input" name="name" id="name" placeholder="Early assembly" required>
@@ -13,18 +13,18 @@
 
         {% include "_bells.html" %}
 
-        <div class="form-group"> <!-- Apply for... -->
+        <div class="form-group" style="margin-bottom: 0"> <!-- Apply for... -->
             <label class="form-checkbox">
                 <input type="checkbox" name="apply" id="apply">
                 <i class="form-icon"></i> {% block applyfor %}{% endblock %}
             </label>
         </div>
-        <div class="form-group">
+        <div class="form-group add_margin">
             <div class="col-1 hide-sm"></div>
             <div class="col-11 col-sm-12">
                 {% set days = ["Monday", "Tueday", "Wednesday", "Thursday", "Friday", "Saturday", "Sunday"] %}
                 {% for day in days %}
-                    <label class="form-inline form-checkbox">
+                    <label class="form-inline form-checkbox"> <!-- TODO require at least one be checked -->
                         <input type="checkbox" name="apply_to" value="{{ day }}" disabled>
                     <i class="form-icon"></i> {{ day }}s
                     </label>
