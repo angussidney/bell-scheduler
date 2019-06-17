@@ -11,6 +11,8 @@
             </div>
         </div>
 
+        {% include "_bells.html" %}
+
         <div class="form-group"> <!-- Apply for... -->
             <label class="form-checkbox">
                 <input type="checkbox" name="apply" id="apply">
@@ -30,6 +32,46 @@
             </div>
         </div>
 
-        {% include "_bells.html" %}
+        <button type="button" id="discard" onclick="toggle_modal('discard_modal')" class="btn btn-error">Discard</button>
+        <div class="modal" id="discard_modal">
+            <a onclick="toggle_modal('discard_modal')" class="modal-overlay" aria-label="Close"></a>
+            <div class="modal-container">
+                <div class="modal-header">
+                    <a onclick="toggle_modal('discard_modal')" class="btn btn-clear float-right" aria-label="Close"></a>
+                    <div class="modal-title h5">Discard data</div>
+                </div>
+                <div class="modal-body">
+                    <div class="content">
+                        Are you sure you would like to discard all {% block verb %}{% endblock %}?
+                    </div>
+                </div>
+                <div class="modal-footer">
+                    <a href="/templates" class="btn btn-error float-left">Discard changes</a>
+                    <button type="button" class="btn btn-primary" onclick="toggle_modal('discard_modal')">Continue editing</button>
+                </div>
+            </div>
+        </div>
+
+        <button type="button" id="save" onclick="toggle_modal('save_modal')" class="btn btn-primary float-right">{% block savebutton %}{% endblock %}</button>
+        <div class="modal" id="save_modal">
+            <a onclick="toggle_modal('save_modal')" class="modal-overlay" aria-label="Close"></a>
+            <div class="modal-container">
+                <div class="modal-header">
+                    <a onclick="toggle_modal('save_modal')" class="btn btn-clear float-right" aria-label="Close"></a>
+                    <div class="modal-title h5">Confirm submission</div>
+                </div>
+                <div class="modal-body">
+                    <div class="content" id="warnings">
+                        {% block warnings %}{% endblock %}
+                        Obviously this must be very important or otherwise I wouldn't be double checking this.
+                    </div>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn float-left" onclick="toggle_modal('save_modal')">Continue editing</button> <!-- todo change when not editing -->
+                    <button type="submit" class="btn btn-primary" onclick="toggle_modal('save_modal')">Save</button>
+                </div>
+            </div>
+        </div>
+
     </form>
 {% endblock %}

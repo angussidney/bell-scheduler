@@ -128,6 +128,9 @@ function delete_bells() {
     }
 
     // Clear selected bells
+    if (selected_bells.length > 1) {
+        document.getElementById("edit").classList.toggle("d-hide");
+    }
     selected_bells = [];
 
     // Update table
@@ -141,10 +144,17 @@ new Cleave('#bell-time', {
     timePattern: ['h', 'm']
 });
 
+
+// TODO: Require at least one box to be checked
 document.getElementById("apply").onclick = function (ev) {
     let checked = document.getElementById("apply").checked;
     document.querySelectorAll("input[name='apply_to']").forEach(function (el) {
         el.disabled = !checked;
+        el.checked = false;
     });
+    // TODO: Fill warnings in modal
 };
 
+function toggle_modal(id) {
+    document.getElementById(id).classList.toggle("active");
+}
