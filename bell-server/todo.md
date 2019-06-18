@@ -6,3 +6,6 @@
  - MongoDB password
  - requirements.txt
  - Setup instructions
+ - Allow all select fields to be searchable
+ - Change accent colour to be blue
+ - Use template-based forms instead of manually typing out

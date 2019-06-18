@@ -1,0 +1,24 @@
+{% extends "base.html" %}
+
+{% block content %}
+    <h1>Settings</h1>
+
+    <h2>Sounds</h2>
+
+    <h2>Default Templates</h2>
+
+    {% set days = ["Monday", "Tueday", "Wednesday", "Thursday", "Friday", "Saturday", "Sunday"] %}
+    <div class="columns">
+    {% for day in days %}
+        <div class="form-group">
+            <div class="col-4 col-sm-12"><label class="form-label" for="{{ day }}">{{ day }}</label></div>
+            <div class="col-4 col-sm-12">
+                <select class="form-select" name="{{ day }}" required>
+                    <option value="" selected disabled hidden>Choose a template</option>
+                    {# Loop through templates #}
+                </select>
+            </div>
+        </div>
+    {% endfor %}
+    </div>
+{% endblock %}

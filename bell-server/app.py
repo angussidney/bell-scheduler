@@ -28,9 +28,10 @@ def create_app(test_config=None):
     except OSError:
         pass
 
-    from controllers import dashboard, templates
+    from controllers import dashboard, templates, settings
     app.register_blueprint(dashboard.bp)
     app.register_blueprint(templates.bp)
+    app.register_blueprint(settings.bp)
     app.add_url_rule('/', endpoint='index')
 
     return app
