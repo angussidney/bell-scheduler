@@ -11,7 +11,7 @@ def list_users():
 
 
 @bp.route('/create', methods=('GET', 'POST'))
-def edit():
+def create():
     return 'Hello World! People making time!'
 
 

@@ -21,5 +21,5 @@ def edit(id):
 
 
 @bp.route('/<id>/delete', methods=('POST',))
-def index(id):
+def delete(id):
     return 'Hello World! Delete all teh things!'

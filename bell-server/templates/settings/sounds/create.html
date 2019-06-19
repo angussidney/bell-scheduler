@@ -1,0 +1,33 @@
+{% extends "base.html" %}
+
+{% block content %}
+    <h1>Upload new sound</h1>
+
+    <form method="post" action="/settings/sounds/create" class="form-horizontal" id="default_settings">
+        <div class="form-group">
+            <div class="col-2 col-sm-12"><label class="form-label" for="name">Sound name</label></div>
+            <div class="col-4 col-sm-12">
+                <input type="text" name="name" id="name" required>
+            </div>
+        </div>
+        <div class="form-group">
+            <div class="col-2 col-sm-12"><label class="form-label" for="file">Audio file</label></div>
+            <div class="col-4 col-sm-12">
+                <input type="file" name="file" id="file" required>
+            </div>
+        </div>
+
+        <div class="form-group">
+            <div class="col-2 col-sm-12"><label class="form-label" for="default">Defaults</label></div>
+            <div class="col-4 col-sm-12">
+                <input type="checkbox" name="default" id="default" required>
+                <label class="form-label" for="default" id="is_default">This bell...</label>
+                <label class="form-label" for="default" id="not_default">Defaults</label>
+            </div>
+        </div>
+        <p id="">Setting this bell as default will cause it to ring for...</p>
+        <!-- modal
+        Are you sure you would like to set this bell as the default? This will affect <strong>all templates and schedules</strong> that do not have a bell sound explicitly set.
+        -->
+    </form>
+{% endblock %}
