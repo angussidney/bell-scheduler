@@ -12,3 +12,6 @@
  - Index or show as method name???
  - macro to generate docs urls
  - disable modals when they aren't very useful (e.g. if there is no data in the field)
+ - macro to generate modals
+ - open source notices in the program
+ - standardise form widths

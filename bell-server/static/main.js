@@ -181,3 +181,10 @@ function assemble_data() {
         document.forms['template_form'].appendChild(time);
     });
 }
+
+function toggle_default_warnings() {
+    [].forEach.call(document.getElementsByClassName("default_toggle"), function (el) {
+        console.log("ping");
+        el.classList.toggle("d-hide");
+    });
+}

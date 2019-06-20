@@ -3,35 +3,33 @@
 {% block content %}
     <h1>Upload new sound</h1>
 
-    <form method="post" action="/settings/sounds/create" class="form-horizontal" id="default_settings">
+    <form method="post" enctype="multipart/form-data" action="/settings/sounds/create" class="form-horizontal" id="default_settings">
         <div class="form-group">
             <div class="col-2 col-sm-12"><label class="form-label" for="name">Sound name</label></div>
-            <div class="col-4 col-sm-12">
+            <div class="col-10 col-sm-12">
                 <input type="text" name="name" id="name" required>
             </div>
         </div>
         <div class="form-group">
             <div class="col-2 col-sm-12"><label class="form-label" for="file">Audio file</label></div>
-            <div class="col-4 col-sm-12">
-                <input type="file" name="file" id="file" required>
+            <div class="col-10 col-sm-12">
+                <input type="file" accept=".wav" name="file" id="file" class="d-block" required>
+                Only <code class="d-inline">.wav</code> files will be accepted.
             </div>
         </div>
 
         <div class="form-group">
             <div class="col-2 col-sm-12"><label class="form-label" for="default">Defaults</label></div>
-            <div class="col-4 col-sm-12">
+            <div class="col-10 col-sm-12">
                 <label class="form-checkbox">
-                    <input type="checkbox" name="default" id="default">
+                    <input type="checkbox" name="default" id="default" onclick="toggle_default_warnings()">
                     <i class="form-icon"></i>
-                    <span class="default_toggle">This bell <strong>will not</strong> be set as the default bell sound</span>
+                    <span class="default_toggle">This bell will not be set as the default bell sound</span>
                     <span class="default_toggle d-hide">This bell <strong>will</strong> be set as the new default sound</span>
                     <a href="{{ docs }}/default-sound">(more info)</a>
                 </label>
             </div>
         </div>
-        <!-- modal
-        
-        -->
     
         <button type="button" id="discard" onclick="toggle_modal('discard_modal')" class="btn btn-error">Discard</button>
         <div class="modal" id="discard_modal">
@@ -47,7 +45,7 @@
                     </div>
                 </div>
                 <div class="modal-footer">
-                    <a href="/templates" class="btn btn-error float-left">Discard changes</a>
+                    <a href="/settings/sounds" class="btn btn-error float-left">Discard changes</a>
                     <button type="button" class="btn btn-primary" onclick="toggle_modal('discard_modal')">Continue editing</button>
                 </div>
             </div>
@@ -63,7 +61,7 @@
                 <div class="modal-body">
                     <div class="content" id="warnings">
                         <span class="d-hide default_toggle">Are you sure you would like to set this bell as the default? This will affect <strong>all templates and schedules</strong> that do not have a bell sound explicitly set.</span>
-                        <span class="default_toggle"></span>
+                        <span class="default_toggle">Are you sure that you would like to upload this bell sound?</span>
                     </div>
                 </div>
                 <div class="modal-footer">
