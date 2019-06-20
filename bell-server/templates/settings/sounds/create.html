@@ -20,14 +20,57 @@
         <div class="form-group">
             <div class="col-2 col-sm-12"><label class="form-label" for="default">Defaults</label></div>
             <div class="col-4 col-sm-12">
-                <input type="checkbox" name="default" id="default" required>
-                <label class="form-label" for="default" id="is_default">This bell...</label>
-                <label class="form-label" for="default" id="not_default">Defaults</label>
+                <label class="form-checkbox">
+                    <input type="checkbox" name="default" id="default">
+                    <i class="form-icon"></i>
+                    <span class="default_toggle">This bell <strong>will not</strong> be set as the default bell sound</span>
+                    <span class="default_toggle d-hide">This bell <strong>will</strong> be set as the new default sound</span>
+                    <a href="{{ docs }}/default-sound">(more info)</a>
+                </label>
             </div>
         </div>
-        <p id="">Setting this bell as default will cause it to ring for...</p>
         <!-- modal
-        Are you sure you would like to set this bell as the default? This will affect <strong>all templates and schedules</strong> that do not have a bell sound explicitly set.
+        
         -->
+    
+        <button type="button" id="discard" onclick="toggle_modal('discard_modal')" class="btn btn-error">Discard</button>
+        <div class="modal" id="discard_modal">
+            <a onclick="toggle_modal('discard_modal')" class="modal-overlay" aria-label="Close"></a>
+            <div class="modal-container">
+                <div class="modal-header">
+                    <a onclick="toggle_modal('discard_modal')" class="btn btn-clear float-right" aria-label="Close"></a>
+                    <div class="modal-title h5">Discard data</div>
+                </div>
+                <div class="modal-body">
+                    <div class="content">
+                        Are you sure you would like to discard this bell sound?
+                    </div>
+                </div>
+                <div class="modal-footer">
+                    <a href="/templates" class="btn btn-error float-left">Discard changes</a>
+                    <button type="button" class="btn btn-primary" onclick="toggle_modal('discard_modal')">Continue editing</button>
+                </div>
+            </div>
+        </div>
+        <button type="button" id="save" onclick="toggle_modal('create_modal')" class="btn btn-primary float-right">Create bell sound</button>
+        <div class="modal" id="create_modal">
+            <a onclick="toggle_modal('create_modal')" class="modal-overlay" aria-label="Close"></a>
+            <div class="modal-container">
+                <div class="modal-header">
+                    <a onclick="toggle_modal('create_modal')" class="btn btn-clear float-right" aria-label="Close"></a>
+                    <div class="modal-title h5">Confirm submission</div>
+                </div>
+                <div class="modal-body">
+                    <div class="content" id="warnings">
+                        <span class="d-hide default_toggle">Are you sure you would like to set this bell as the default? This will affect <strong>all templates and schedules</strong> that do not have a bell sound explicitly set.</span>
+                        <span class="default_toggle"></span>
+                    </div>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn float-left" onclick="toggle_modal('create_modal')">Continue editing</button> <!-- todo change when not editing -->
+                    <button type="submit" class="btn btn-primary" onclick="toggle_modal('create_modal')">Submit</button>
+                </div>
+            </div>
+        </div>
     </form>
 {% endblock %}

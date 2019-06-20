@@ -1,6 +1,7 @@
 from flask import Flask
 import os
 
+from helpers import system_wide_template_variables
 
 def create_app(test_config=None):
     # create and configure the app
@@ -35,5 +36,7 @@ def create_app(test_config=None):
     app.register_blueprint(settings.bp)
     app.register_blueprint(users.bp)
     app.add_url_rule('/', endpoint='index')
+
+    app.context_processor(system_wide_template_variables)
 
     return app

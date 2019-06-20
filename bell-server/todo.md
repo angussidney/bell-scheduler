@@ -10,3 +10,5 @@
  - Change accent colour to be blue
  - Use template-based forms instead of manually typing out
  - Index or show as method name???
+ - macro to generate docs urls
+ - disable modals when they aren't very useful (e.g. if there is no data in the field)
