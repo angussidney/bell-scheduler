@@ -15,3 +15,5 @@
  - macro to generate modals
  - open source notices in the program
  - standardise form widths
+ - allow configuration of bells directory
+ - override secret key

@@ -1,7 +1,11 @@
 from flask import (
-    Blueprint, render_template
+    Blueprint, render_template, request, flash, redirect, url_for
 )
+from flask import current_app as app
+from werkzeug.utils import secure_filename
 from models import Template, Defaults
+from helpers import check_file
+import os
 
 bp = Blueprint('settings', __name__, url_prefix='/settings')
 
@@ -23,7 +27,17 @@ def list_sounds():
 
 @bp.route('/sounds/create', methods=('GET', 'POST'))
 def create_sound():
-    return render_template("settings/sounds/create.html")
+    if request.method == 'POST':
+        file = request.files["file"]
+        if file and check_file(file.filename):
+            filename = secure_filename(file.filename)
+            file.save(os.path.join(app.config['UPLOAD_FOLDER'], filename))
+            return redirect(url_for('list_sounds'))
+        else:
+            flash("That filetype is not supported.")
+            return redirect(request.url)
+    else:
+        return render_template("settings/sounds/create.html")
 
 
 @bp.route('/sounds/<id>/delete', methods=('POST',))

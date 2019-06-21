@@ -3,6 +3,7 @@ import os
 
 from helpers import system_wide_template_variables
 
+
 def create_app(test_config=None):
     # create and configure the app
     app = Flask(__name__, instance_relative_config=True)
@@ -10,7 +11,9 @@ def create_app(test_config=None):
         SECRET_KEY='dev',
         MONGODB_SETTINGS={
             'db': 'bell_server'
-        }
+        },
+        MAX_CONTENT_LENGTH=(16 * 1024 * 1024),
+        UPLOAD_FOLDER=os.path.join(os.getcwd(), "data", "sounds")
     )
 
     from models import db
