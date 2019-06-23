@@ -3,7 +3,7 @@ from flask import (
 )
 from flask import current_app as app
 from werkzeug.utils import secure_filename
-from models import Template, Defaults
+from models import Template, Defaults, Sound
 from helpers import check_file
 import os
 
@@ -29,13 +29,27 @@ def list_sounds():
 def create_sound():
     if request.method == 'POST':
         file = request.files["file"]
-        if file and check_file(file.filename):
-            filename = secure_filename(file.filename)
-            file.save(os.path.join(app.config['UPLOAD_FOLDER'], filename))
-            return redirect(url_for('list_sounds'))
-        else:
+        if not (file and check_file(file)):
             flash("That filetype is not supported.")
             return redirect(request.url)
+
+        filename = secure_filename(file.filename)
+        # TODO: check if filename already exists, or is empty
+
+        if any(Sound.objects(name=request.form['name'])):
+            flash("There is already a bell sound with that name.")
+            return redirect(request.url)
+
+        real_filepath = os.path.join(app.instance_path, filename)
+        file.save(real_filepath)
+        sound = Sound(name=request.form['name'], filepath=real_filepath)
+        sound.save()
+        current_defaults = Defaults.objects.first()
+        current_defaults.sound = sound.id
+        current_defaults.save()
+
+        flash("Sound successfully created.")
+        return redirect(url_for('settings.list_sounds'))
     else:
         return render_template("settings/sounds/create.html")
 

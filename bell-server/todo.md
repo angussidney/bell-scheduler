@@ -17,3 +17,5 @@
  - standardise form widths
  - allow configuration of bells directory
  - override secret key
+ - give user all error messages at once
+ - standardise single vs double quotes

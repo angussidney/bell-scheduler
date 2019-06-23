@@ -188,3 +188,7 @@ function toggle_default_warnings() {
         el.classList.toggle("d-hide");
     });
 }
+
+function hide_this(el) {
+    el.parent.classList.add('d-hide');
+}

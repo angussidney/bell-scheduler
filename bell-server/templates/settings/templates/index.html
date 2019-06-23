@@ -13,7 +13,7 @@
                     <select class="form-select" name="{{ day }}" required>
                         <option value="" selected disabled hidden>Choose a template</option>
                         {% for temp in templates %}
-                            <option value="{{ temp._id }}" {% if defaults[index] == temp._id %}selected{% endif %}>
+                            <option value="{{ temp.id }}" {% if defaults[index] == temp._id %}selected{% endif %}>
                                 {{ temp.name }}
                             </option>
                         {% endfor %}

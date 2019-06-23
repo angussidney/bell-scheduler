@@ -13,7 +13,7 @@ def create_app(test_config=None):
             'db': 'bell_server'
         },
         MAX_CONTENT_LENGTH=(16 * 1024 * 1024),
-        UPLOAD_FOLDER=os.path.join(os.getcwd(), "data", "sounds")
+        UPLOAD_FOLDER=os.path.join(app.instance_path, "data", "sounds")
     )
 
     from models import db
@@ -29,6 +29,7 @@ def create_app(test_config=None):
     # ensure the instance folder exists
     try:
         os.makedirs(app.instance_path)
+        os.makedirs(app.config['UPLOAD_FOLDER'])
     except OSError:
         pass
 
