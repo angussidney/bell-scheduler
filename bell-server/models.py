@@ -15,18 +15,14 @@ class Bell(db.EmbeddedDocument):
     sound = db.ObjectIdField()
 
 
-class BellSchedule(db.Document):
-    name = db.StringField(required=True)  # Human readable name
-    bells = db.EmbeddedDocumentListField(Bell)
-
-    meta = {'allow_inheritance': True}
-
-
 class Template(db.Document):
-    pass
+    name = db.StringField(required=True)
+    bells = db.EmbeddedDocumentListField(Bell)
 
 
 class CustomSchedule(db.Document):
+    name = db.StringField(required=True)
+    bells = db.EmbeddedDocumentListField(Bell)
     date = db.DateField(default=datetime.now().date, required=True)
 
 

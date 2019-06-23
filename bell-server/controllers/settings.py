@@ -14,7 +14,8 @@ bp = Blueprint('settings', __name__, url_prefix='/settings')
 def templates():
     return render_template('settings/templates/index.html',
                            templates=Template.objects(),
-                           defaults=Defaults.objects.first().daily_templates)
+                           defaults=Defaults.objects.first().daily_templates,
+                           days=enumerate(["Monday", "Tuesday", "Wednesday", "Thursday", "Friday", "Saturday", "Sunday"]))
 
 
 # ----- #

@@ -1,7 +1,7 @@
 from flask import (
     Blueprint, redirect, render_template, request, url_for
 )
-from models import Bell, Template, Sound
+from models import Bell, Template, Sound, Defaults
 
 bp = Blueprint('templates', __name__, url_prefix='/templates')
 
@@ -15,22 +15,31 @@ def index():
 def create():
     if request.method == 'POST':
         t = Template()
+        print(request.form)
         t.name = request.form['name']
 
         times = request.form.getlist('bell_times')
         names = request.form.getlist('bell_names')
-        # TODO Request sound objects from database, then match up to sound names
-        t.bells = [Bell(time=b[0], name=b[1]) for b in zip(times, names)]
+        sound_ids = [i if i != "default" else None
+                     for i in request.form.getlist('bell_sound_ids')]
 
+        t.bells = [Bell(time=b[0], name=b[1], sound=b[2])
+                   for b in zip(times, names, sound_ids)]
+        map(lambda bell: bell.save(), t.bells)
         t.save()
 
         if bool(request.form.get('apply', False)):
-            days = request.form.getlist('apply_to')
-            # TODO loop through days and add to settings
+            default = Defaults.objects.first()
+            selected_days = request.form.getlist('apply_to')
+            for i, day in enumerate(["Monday", "Tuesday", "Wednesday", "Thursday", "Friday", "Saturday", "Sunday"]):
+                if day in selected_days:
+                    default.daily_templates[i] = t.id
+            default.save()
 
-        return redirect(url_for('.show'))
+        return redirect(url_for('templates.index'))
     else:
-        return render_template('templates/create.html')
+        default_sound = Sound.objects(id=Defaults.objects.first().sound).first()
+        return render_template('templates/create.html', sounds=Sound.objects(), default_sound=default_sound)
 
 
 @bp.route('/<id>/edit', methods=('GET', 'POST'))

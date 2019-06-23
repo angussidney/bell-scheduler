@@ -8,7 +8,7 @@
                 <tr>
                     <th>Time</th>
                     <th>Name</th>
-                    <th>Sound file</th>
+                    <th>Sound</th>
                 </tr>
             </thead>
             <tbody id="bell-list">
@@ -26,8 +26,10 @@
                 <input class="form-input column col-3" id="bell-time" placeholder="13:55" pattern="(2[0-3]|[01][0-9]):[0-5][0-9]">
                 <input class="form-input column col-3" id="bell-name" placeholder="Bell name">
                 <select class="form-select column col-3" id="bell-file">
-                    <option value="default" selected>Default (currently bla)</option>
-                    <!-- TODO add all templates here -->
+                    <option value="default" selected>Default ({{ default_sound.name }})</option>
+                    {% for sound in sounds %}
+                        <option value="{{ sound.id }}">{{ sound.name }}</option>
+                    {% endfor %}
                 </select>
                 <div class="column col-2"></div>
                 <button class="btn btn-primary column col-1" type="button" id="add" onclick="add_bells()">Add</button>

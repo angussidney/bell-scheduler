@@ -5,12 +5,13 @@
 let all_bells = [], // List of bell objects
     selected_bells = []; // List of names
 
-function Bell(time, name, filepath) {
+function Bell(time, name, sound, sound_id) {
     this.time = time;
     this.name = name;
-    this.filepath = filepath;
+    this.sound = sound;
+    this.sound_id = sound_id;
     this.renderHTML = function () {
-        return "<tr><td>" + this.time + "</td><td>" + this.name + "</td><td>" + this.filepath + "</td></tr>"
+        return "<tr><td>" + this.time + "</td><td>" + this.name + "</td><td>" + this.sound + "</td></tr>"
     }
 }
 
@@ -72,14 +73,14 @@ function add_bells() {
     // Get data from form
     let time = document.querySelector("#addnew #bell-time").value;
     let name = document.querySelector("#addnew #bell-name").value;
-    let file = document.querySelector("#addnew #bell-file").value;
+    let file = document.querySelector("#addnew #bell-file");
 
     // TODO: Disallow same name/same time, or empty fields
     // time.setCustomValidity("No two bells can be scheduled for the same time");
     // name.setCustomValidity("No two bells can have the same name");
 
     // Sort into list
-    let new_bell = new Bell(time, name, file);
+    let new_bell = new Bell(time, name, file.options[file.selectedIndex].text, file.value);
     let inserted = false;
     for (let i = 0; i < all_bells.length; i++) {
         if (all_bells[i].time > new_bell.time) {
@@ -105,7 +106,7 @@ function edit_bells() {
     let bell = get_bell(selected_bells[0]);
     document.querySelector("#addnew #bell-time").value = bell.time;
     document.querySelector("#addnew #bell-name").value = bell.name;
-    document.querySelector("#addnew #bell-file").value = bell.filepath;
+    document.querySelector("#addnew #bell-file").value = bell.sound_id;
 
     // Remove the bell from the table
     all_bells = all_bells.filter(function (item) {
@@ -172,13 +173,13 @@ function assemble_data() {
         name.type = 'hidden';
         name.name = 'bell_names';
         name.value = bell.name;
-        document.forms['template_form'].appendChild(time);
+        document.forms['template_form'].appendChild(name);
 
-        let filepath = document.createElement('input');
-        filepath.type = 'hidden';
-        filepath.name = 'bell_filepaths';
-        filepath.value = bell.filepath;
-        document.forms['template_form'].appendChild(time);
+        let sound_id = document.createElement('input');
+        sound_id.type = 'hidden';
+        sound_id.name = 'bell_sound_ids';
+        sound_id.value = bell.sound_id;
+        document.forms['template_form'].appendChild(sound_id);
     });
 }
 
