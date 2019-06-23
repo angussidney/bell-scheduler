@@ -22,7 +22,10 @@ def templates():
 
 @bp.route('/sounds')
 def list_sounds():
-    return "Hello World! Beep, boop, bip bip bip!"
+    return render_template("settings/sounds/list.html",
+                           sounds=[(s.id, s.name, os.path.basename(s.filepath))
+                                   for s in Sound.objects.order_by("+name")],
+                           default=Defaults.objects.first().sound)
 
 
 @bp.route('/sounds/create', methods=('GET', 'POST'))
@@ -30,25 +33,28 @@ def create_sound():
     if request.method == 'POST':
         file = request.files["file"]
         if not (file and check_file(file)):
-            flash("That filetype is not supported.")
+            flash("That filetype is not supported.", "error")
             return redirect(request.url)
 
         filename = secure_filename(file.filename)
         # TODO: check if filename already exists, or is empty
 
         if any(Sound.objects(name=request.form['name'])):
-            flash("There is already a bell sound with that name.")
+            flash("There is already a bell sound with that name.", "error")
             return redirect(request.url)
 
         real_filepath = os.path.join(app.instance_path, filename)
         file.save(real_filepath)
         sound = Sound(name=request.form['name'], filepath=real_filepath)
         sound.save()
-        current_defaults = Defaults.objects.first()
-        current_defaults.sound = sound.id
-        current_defaults.save()
 
-        flash("Sound successfully created.")
+        if bool(request.form.get('default', False)):
+            current_defaults = Defaults.objects.first()
+            current_defaults.sound = sound.id
+            current_defaults.save()
+            flash("Sound successfully created and set as default.", "success")
+        else:
+            flash("Sound successfully created.", "success")
         return redirect(url_for('settings.list_sounds'))
     else:
         return render_template("settings/sounds/create.html")
@@ -56,7 +62,11 @@ def create_sound():
 
 @bp.route('/sounds/<id>/delete', methods=('POST',))
 def delete_sound(id):
-    return "Hello World! Sad sound :("
+    sound = Sound.objects(id=id).first()
+    os.remove(sound.filepath)
+    sound.delete()
+    flash("Sound successfully deleted.", "success")
+    return redirect(url_for('settings.list_sounds'))
 
 
 @bp.route('/sounds/default', methods=('POST',))

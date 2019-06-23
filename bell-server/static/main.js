@@ -189,6 +189,6 @@ function toggle_default_warnings() {
     });
 }
 
-function hide_this(el) {
-    el.parent.classList.add('d-hide');
+function hide_this(ev) {
+    ev.target.parentNode.classList.add('d-hide');
 }

@@ -5,4 +5,5 @@ def system_wide_template_variables():
 
 
 def check_file(file):
+    # Todo: properly check filetype (not just extension)
     return '.' in file.filename and file.filename.rsplit('.', 1)[1].lower() == "wav"

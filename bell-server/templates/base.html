@@ -12,19 +12,19 @@
 </head>
 <body>
     <div class="container grid-lg">
+        <header class="navbar" style="margin-bottom: 1.5rem">
+            TODO Put the navbar here
+        </header>
         {% with messages = get_flashed_messages(with_categories=true) %}
             {% if messages %}
                 {% for category, message in messages %}
                     <div class="toast toast-{{ category }}">
-                      <button class="btn btn-clear float-right" onclick="hide_this(this)"></button>
+                      <button class="btn btn-clear float-right" onclick="hide_this(event)"></button>
                       {{ message }}
                     </div>
                 {% endfor %}
             {% endif %}
         {% endwith %}
-        <header class="navbar" style="margin-bottom: 1.5rem">
-            TODO Put the navbar here
-        </header>
         {% block content %}{% endblock %}
     </div>
 

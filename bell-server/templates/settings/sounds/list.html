@@ -1,0 +1,32 @@
+{% extends "base.html" %}
+
+{% block content %}
+    <h1>Bell Sounds</h1>
+
+    <a class="btn btn-primary" href="{{ url_for('settings.create_sound') }}">Create new bell sound</a>
+
+    <table class="table">
+        <thead><tr>
+            <th>Name</th>
+            <th>Filename</th>
+            <th>Actions</th>
+        </tr></thead>
+        <tbody>
+            {% for id, name, filepath in sounds %}
+                <tr {% if id == default %}class="active"{% endif %}>
+                    <td>
+                        {{ name }}
+                        {% if id == default %}
+                            <strong>(default)</strong>
+                        {% endif %}
+                    </td>
+                    <td>{{ filepath }}</td>
+                    <td><form action="{{ url_for('settings.delete_sound', id=id) }}" method="post">
+                        <button class="btn btn-link text-error">Delete</button>
+                    </form></td>
+                </tr>
+            {% endfor %}
+        </tbody>
+    </table>
+
+{% endblock %}
