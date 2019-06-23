@@ -9,24 +9,74 @@
         <thead><tr>
             <th>Name</th>
             <th>Filename</th>
-            <th>Actions</th>
+            <th colspan="2">Actions</th>
         </tr></thead>
         <tbody>
             {% for id, name, filepath in sounds %}
                 <tr {% if id == default %}class="active"{% endif %}>
+                    <td>{{ name }}</td>
+                    <td>{{ filepath }}</td>
                     <td>
-                        {{ name }}
                         {% if id == default %}
-                            <strong>(default)</strong>
+                            (Currently default)
+                        {% else %}
+                            <button class="btn btn-link" onclick="toggle_modal('default_modal'); change_action('default_form', '{{ url_for("settings.default_sound", id=id) }}')">Make default</button>
                         {% endif %}
                     </td>
-                    <td>{{ filepath }}</td>
-                    <td><form action="{{ url_for('settings.delete_sound', id=id) }}" method="post">
-                        <button class="btn btn-link text-error">Delete</button>
-                    </form></td>
+                    <td {% if id == default %}class="tooltip tooltip-left" data-tooltip="The default bell sound cannot be
+deleted. Please make another sound
+the default in order to delete this."{% endif %}>
+                        <button
+                            class="btn btn-link text-error"
+                            {% if id == default %}disabled{% endif %}
+                            onclick="toggle_modal('delete_modal'); change_action('delete_form', '{{ url_for("settings.delete_sound", id=id) }}')"
+                        >Delete</button>
+                    </td>
                 </tr>
             {% endfor %}
         </tbody>
     </table>
 
+    <div class="modal" id="default_modal">
+        <a onclick="toggle_modal('default_modal')" class="modal-overlay" aria-label="Close"></a>
+        <div class="modal-container">
+            <div class="modal-header">
+                <a onclick="toggle_modal('default_modal')" class="btn btn-clear float-right" aria-label="Close"></a>
+                <div class="modal-title h5">Change default bell sound</div>
+            </div>
+            <div class="modal-body">
+                <div class="content">
+                    <p>Are you sure you would like to set this sound as the default? This will affect <strong>all templates and schedules</strong> that do not have a bell sound explicitly set.</p>
+                    <p>For more information about what this setting affects, <a href="{{ docs }}/default-sound" target="_blank">see the documentation.</a></p>
+                </div>
+            </div>
+            <div class="modal-footer">
+                <form action="" method="post" id="default_form">
+                    <button class="btn float-left">Make default</button>
+                </form>
+                <button type="button" class="btn btn-primary" onclick="toggle_modal('default_modal')">Keep existing defaults</button>
+            </div>
+        </div>
+    </div>
+
+    <div class="modal" id="delete_modal">
+        <a onclick="toggle_modal('delete_modal')" class="modal-overlay" aria-label="Close"></a>
+        <div class="modal-container">
+            <div class="modal-header">
+                <a onclick="toggle_modal('delete_modal')" class="btn btn-clear float-right" aria-label="Close"></a>
+                <div class="modal-title h5">Delete bell sound</div>
+            </div>
+            <div class="modal-body">
+                <div class="content">
+                    Are you sure you would like to delete this bell sound? This action is permanent and cannot be undone.
+                </div>
+            </div>
+            <div class="modal-footer">
+                <form action="" method="post" id="delete_form">
+                    <button class="btn btn-error float-left">Delete sound</button>
+                </form>
+                <button type="button" class="btn btn-primary" onclick="toggle_modal('delete_modal')">Cancel</button>
+            </div>
+        </div>
+    </div>
 {% endblock %}

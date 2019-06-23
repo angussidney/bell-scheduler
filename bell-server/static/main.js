@@ -192,3 +192,7 @@ function toggle_default_warnings() {
 function hide_this(ev) {
     ev.target.parentNode.classList.add('d-hide');
 }
+
+function change_action(form_id, url) {
+    document.getElementById(form_id).setAttribute("action", url);
+}

@@ -69,9 +69,13 @@ def delete_sound(id):
     return redirect(url_for('settings.list_sounds'))
 
 
-@bp.route('/sounds/default', methods=('POST',))
-def default_sound():
-    return "Hello World is the default starting program!"
+@bp.route('/sounds/<id>/default', methods=('POST',))
+def default_sound(id):
+    current_defaults = Defaults.objects.first()
+    current_defaults.sound = id
+    current_defaults.save()
+    flash("Sound successfully set as default.", "success")
+    return redirect(url_for('settings.list_sounds'))
 
 
 # ----- #
