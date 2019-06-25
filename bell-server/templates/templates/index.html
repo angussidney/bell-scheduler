@@ -1,0 +1,58 @@
+{% extends "base.html" %}
+
+{% block content %}
+    <h1>Templates</h1>
+
+    <a class="btn btn-primary" href="{{ url_for('templates.create') }}">Create new template</a>
+
+    <table class="table">
+        <thead><tr>
+            <th>Name</th>
+            <th>Bells</th>
+            <th colspan="2">Actions</th>
+        </tr></thead>
+        <tbody>
+            {% for template in templates %}
+                <tr>
+                    <td>{{ template.name }}</td>
+                    <td>{{ template.bells | length }}</td>
+                    <td>
+                        <a class="btn btn-link" href="{{ url_for("templates.edit", id=template.id) }}">Edit</a>
+                    </td>
+                    <td {% if template.id in defaults %}class="tooltip tooltip-left" data-tooltip="This template has been set as a default
+template. Please change the default
+templates in order to delete this."{% endif %}>
+                        <button
+                            class="btn btn-link text-error"
+                            {% if template.id in defaults %}disabled{% endif %}
+                            onclick="toggle_modal('delete_modal'); change_action('delete_form', '{{ url_for("templates.delete", id=template.id) }}')"
+                        >Delete</button>
+                    </td>
+                </tr>
+            {% endfor %}
+        </tbody>
+    </table>
+
+    <a class="btn" href="{{ url_for('settings.templates') }}">Change default templates</a>
+
+    <div class="modal" id="delete_modal">
+        <a onclick="toggle_modal('delete_modal')" class="modal-overlay" aria-label="Close"></a>
+        <div class="modal-container">
+            <div class="modal-header">
+                <a onclick="toggle_modal('delete_modal')" class="btn btn-clear float-right" aria-label="Close"></a>
+                <div class="modal-title h5">Delete template</div>
+            </div>
+            <div class="modal-body">
+                <div class="content">
+                    Are you sure you would like to delete this template? This action is permanent and cannot be undone.
+                </div>
+            </div>
+            <div class="modal-footer">
+                <form action="" method="post" id="delete_form">
+                    <button class="btn btn-error float-left">Delete template</button>
+                </form>
+                <button type="button" class="btn btn-primary" onclick="toggle_modal('delete_modal')">Cancel</button>
+            </div>
+        </div>
+    </div>
+{% endblock %}

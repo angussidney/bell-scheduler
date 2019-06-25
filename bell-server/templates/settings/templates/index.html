@@ -19,5 +19,45 @@
                 </div>
             </div>
         {% endfor %}
+
+        <button type="button" onclick="toggle_modal('discard_modal')" class="btn btn-error">Discard</button>
+        <div class="modal" id="discard_modal">
+            <a onclick="toggle_modal('discard_modal')" class="modal-overlay" aria-label="Close"></a>
+            <div class="modal-container">
+                <div class="modal-header">
+                    <a onclick="toggle_modal('discard_modal')" class="btn btn-clear float-right" aria-label="Close"></a>
+                    <div class="modal-title h5">Discard changes</div>
+                </div>
+                <div class="modal-body">
+                    <div class="content">
+                        Are you sure you would like to discard your changes to the default templates?
+                    </div>
+                </div>
+                <div class="modal-footer">
+                    <a href="{{ url_for("templates.index") }}" class="btn btn-error float-left">Discard changes</a>
+                    <button type="button" class="btn btn-primary" onclick="toggle_modal('discard_modal')">Continue editing</button>
+                </div>
+            </div>
+        </div>
+
+        <button type="button" onclick="toggle_modal('save_modal')" class="btn btn-primary float-right">Save</button>
+        <div class="modal" id="save_modal">
+            <a onclick="toggle_modal('save_modal')" class="modal-overlay" aria-label="Close"></a>
+            <div class="modal-container">
+                <div class="modal-header">
+                    <a onclick="toggle_modal('save_modal')" class="btn btn-clear float-right" aria-label="Close"></a>
+                    <div class="modal-title h5">Confirm changes</div>
+                </div>
+                <div class="modal-body">
+                    <div class="content">
+                        Are you sure that you would like to change the default bell templates? This will affect all days that do not have a custom bell schedule set.
+                    </div>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn float-left" onclick="toggle_modal('save_modal')">Continue editing</button>
+                    <button type="submit" class="btn btn-primary" onclick="toggle_modal('save_modal')">Save changes</button>
+                </div>
+            </div>
+        </div>
     </form>
 {% endblock %}

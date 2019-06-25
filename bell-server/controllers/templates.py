@@ -1,5 +1,5 @@
 from flask import (
-    Blueprint, redirect, render_template, request, url_for
+    Blueprint, redirect, render_template, request, url_for, flash
 )
 from models import Bell, Template, Sound, Defaults
 
@@ -8,14 +8,15 @@ bp = Blueprint('templates', __name__, url_prefix='/templates')
 
 @bp.route('/')
 def index():
-    return 'Hello World! List all of the templates!'
+    return render_template("templates/index.html",
+                           templates=Template.objects.order_by("+name"),
+                           defaults=Defaults.objects.first().daily_templates)
 
 
 @bp.route('/create', methods=('GET', 'POST'))
 def create():
     if request.method == 'POST':
         t = Template()
-        print(request.form)
         t.name = request.form['name']
 
         times = request.form.getlist('bell_times')
@@ -49,4 +50,7 @@ def edit(id):
 
 @bp.route('/<id>/delete', methods=('POST',))
 def delete(id):
-    return 'Hello World! Delete all teh things!'
+    template = Template.objects(id=id).first()
+    template.delete()
+    flash("Template successfully deleted.", "success")
+    return redirect(url_for('templates.index'))

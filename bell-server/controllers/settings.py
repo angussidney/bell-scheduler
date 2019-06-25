@@ -9,13 +9,23 @@ import os
 
 bp = Blueprint('settings', __name__, url_prefix='/settings')
 
+weekdays = ["Monday", "Tuesday", "Wednesday", "Thursday", "Friday", "Saturday", "Sunday"]
+
 
 @bp.route('/templates', methods=('GET', 'POST'))
 def templates():
-    return render_template('settings/templates/index.html',
-                           templates=Template.objects(),
-                           defaults=Defaults.objects.first().daily_templates,
-                           days=enumerate(["Monday", "Tuesday", "Wednesday", "Thursday", "Friday", "Saturday", "Sunday"]))
+    if request.method == "POST":
+        new_defaults = [request.form[day] for day in weekdays]
+        defaults = Defaults.objects.first()
+        defaults.daily_templates = new_defaults
+        defaults.save()
+        flash("Default templates successfully updated.", "success")
+        return redirect(url_for("templates.index"))
+    else:
+        return render_template('settings/templates/index.html',
+                               templates=Template.objects(),
+                               defaults=Defaults.objects.first().daily_templates,
+                               days=enumerate(weekdays))
 
 
 # ----- #
