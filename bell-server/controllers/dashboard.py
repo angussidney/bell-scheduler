@@ -6,5 +6,5 @@ bp = Blueprint('dashboard', __name__)
 
 
 @bp.route('/')
-def hello_world():
+def index():
     return 'Hello World! Dashboard time!'

@@ -1,5 +1,8 @@
 <!doctype html>
 <head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width,initial-scale=1">
+
     <title>{% block title %}{% endblock %} - Bell Scheduler</title>
 
     {% block extra_resources %}{% endblock %}
@@ -19,8 +22,22 @@
 </head>
 <body>
     <div class="container grid-lg">
-        <header class="navbar" style="margin-bottom: 1.5rem">
-            TODO Put the navbar here
+        <header class="navbar add_margin">
+            <section class="navbar-section">
+                <a href="{{ url_for("dashboard.index") }}" class="btn btn-link">Dashboard</a>
+                <a href="{{ url_for("templates.index") }}" class="btn btn-link">Templates</a>
+                <a href="{{ url_for("schedule.index") }}" class="btn btn-link">Schedule</a>
+            </section>
+            <section class="navbar-center navbar-brand">
+                <!-- TODO add logo here -->
+                Bell Scheduler
+            </section>
+            <section class="navbar-section">
+                <a href="#" class="btn btn-link">Sounds</a>
+                <a href="#" class="btn btn-link">Backup</a>
+                <a href="#" class="btn btn-link">Users</a>
+                <a href="#" class="btn btn-link">Logout</a>
+            </section>
         </header>
         {% with messages = get_flashed_messages(with_categories=true) %}
             {% if messages %}
