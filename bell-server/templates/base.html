@@ -1,14 +1,21 @@
 <!doctype html>
 <head>
     <title>{% block title %}{% endblock %} - Bell Scheduler</title>
+
+    {% block extra_resources %}{% endblock %}
+
     {% if config['ENV'] == 'development'  %}
-        <link rel="stylesheet" href="{{ url_for('static', filename='vendor/spectre.css') }}">
-        <link rel="stylesheet" href="{{ url_for('static', filename='vendor/icons.css') }}">
+        <link rel="stylesheet" href="{{ url_for('static', filename='vendor/spectre/spectre.css') }}">
+        <link rel="stylesheet" href="{{ url_for('static', filename='vendor/spectre/icons.css') }}">
+        <script src="{{ url_for('static', filename='vendor/cleave/cleave.js') }}" defer></script>
     {% else %}
-        <link rel="stylesheet" href="{{ url_for('static', filename='vendor/spectre.min.css') }}">
-        <link rel="stylesheet" href="{{ url_for('static', filename='vendor/icons.min.css') }}">
+        <link rel="stylesheet" href="{{ url_for('static', filename='vendor/spectre/spectre.min.css') }}">
+        <link rel="stylesheet" href="{{ url_for('static', filename='vendor/spectre/icons.min.css') }}">
+        <script src="{{ url_for('static', filename='vendor/cleave/cleave.min.js') }}" defer></script>
     {% endif %}
+
     <link rel="stylesheet" href="{{ url_for('static', filename='main.css') }}">
+    <script src="{{ url_for('static', filename='main.js') }}" defer></script>
 </head>
 <body>
     <div class="container grid-lg">
@@ -27,11 +34,4 @@
         {% endwith %}
         {% block content %}{% endblock %}
     </div>
-
-    {% if config['ENV'] == 'development'  %}
-        <script src="{{ url_for('static', filename='vendor/cleave.js') }}"></script>
-    {% else %}
-        <script src="{{ url_for('static', filename='vendor/cleave.min.js') }}"></script>
-    {% endif %}
-    <script src="{{ url_for('static', filename='main.js') }}" defer></script>
 </body>

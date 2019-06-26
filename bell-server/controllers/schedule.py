@@ -7,7 +7,7 @@ bp = Blueprint('schedule', __name__, url_prefix='/schedule')
 
 @bp.route('/')
 def index():
-    return 'Hello World! List all of the schedules!'
+    return render_template("schedules/index.html")
 
 
 @bp.route('/create', methods=('GET', 'POST'))
