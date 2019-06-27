@@ -20,3 +20,4 @@
  - give user all error messages at once
  - standardise single vs double quotes
  - setup script
+ - <p> or not to <p>: That is the question

@@ -30,13 +30,13 @@
             </section>
             <section class="navbar-center navbar-brand">
                 <!-- TODO add logo here -->
-                Bell Scheduler
+                <a href="{{ url_for("dashboard.index") }}" class="btn btn-link">Bell Scheduler</a>
             </section>
             <section class="navbar-section">
-                <a href="#" class="btn btn-link">Sounds</a>
-                <a href="#" class="btn btn-link">Backup</a>
-                <a href="#" class="btn btn-link">Users</a>
-                <a href="#" class="btn btn-link">Logout</a>
+                <a href="{{ url_for("settings.list_sounds") }}" class="btn btn-link">Sounds</a>
+                <a href="{{ url_for("settings.backups") }}" class="btn btn-link">Backup</a>
+                <a href="{{ url_for("users.list_users") }}" class="btn btn-link">Users</a>
+                <a href="{{ url_for("users.logout") }}" class="btn btn-link">Logout</a>
             </section>
         </header>
         {% with messages = get_flashed_messages(with_categories=true) %}

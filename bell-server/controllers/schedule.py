@@ -1,6 +1,7 @@
 from flask import (
-    Blueprint, render_template
+    Blueprint, render_template, url_for
 )
+from models import Sound, Defaults
 
 bp = Blueprint('schedule', __name__, url_prefix='/schedule')
 
@@ -12,7 +13,8 @@ def index():
 
 @bp.route('/create', methods=('GET', 'POST'))
 def create():
-    return 'Hello World! Lets create a schedule!'
+    default_sound = Sound.objects(id=Defaults.objects.first().sound).first()
+    return render_template("schedules/form.html", sounds=Sound.objects(), default_sound=default_sound)
 
 
 @bp.route('/<id>/edit', methods=('GET', 'POST'))

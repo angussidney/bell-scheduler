@@ -197,3 +197,9 @@ function hide_this(ev) {
 function change_action(form_id, url) {
     document.getElementById(form_id).setAttribute("action", url);
 }
+
+function toggle_end(index) {
+    let id = "end" + index;
+    let el = document.getElementById(id);
+    el.disabled = !el.disabled;
+}

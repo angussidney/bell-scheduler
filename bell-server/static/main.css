@@ -1,3 +1,8 @@
 .add_margin {
     margin-bottom: 1rem !important;
 }
+
+.date_ranges > input, .date_ranges > label {
+    display: inline;
+    width: revert;
+}

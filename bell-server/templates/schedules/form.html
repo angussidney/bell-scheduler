@@ -1,0 +1,31 @@
+{% extends "base.html" %}
+
+{% block content %}
+    <h1>{% block title %}Create new schedule{% endblock %}</h1>
+
+    <form method="post" action="{{ url_for("schedule.create") }}" onsubmit="assemble_data()" class="form-horizontal" id="template_form">
+        <div class="form-group add_margin"> <!-- Name -->
+            <div class="col-4 col-sm-12"><label class="form-label" for="name">Name</label></div>
+            <div class="col-8 col-sm-12">
+                <input class="form-input" name="name" id="name" placeholder="Early assembly" required>
+            </div>
+        </div>
+
+        <label class="form-label" for="date0">Apply custom schedule to:</label>
+        <ul>
+            <li class="date_ranges">
+                <label class="form-label" for="date0"><span id="adjust0">Date</span></label>
+                <input type="date" class="form-input" name="date0" id="date0">
+                <label class="form-checkbox">
+                    <input type="checkbox" onclick="toggle_end(0)">
+                    <i class="form-icon"></i>
+                    End date
+                </label>
+                <input type="date" class="form-input" name="end0" id="end0" disabled>
+            </li>
+        </ul>
+
+        {% include "_bells.html" %}
+    </form>
+
+{% endblock %}
