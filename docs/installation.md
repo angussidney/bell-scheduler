@@ -10,7 +10,7 @@
 ## Advanced setup
 ### Software requirements
 - Windows 7/10 or any Linux distribution (tested as working on Ubuntu 18.04)
-- Python 3 (avaliable from [Python.org](https://www.python.org/downloads/)). The program has been tested as working on versions 3.6.x and 3.7.x, but any version of Python 3 beyond 3.4.x should suffice. 
+- Python 3 (avaliable from [Python.org](https://www.python.org/downloads/)). The program has been tested as working on versions 3.6.x and 3.7.x, but any version of Python 3 beyond 3.4.x should suffice.
   - If you're using the version of Python included with your Linux distribution, you will also need to install the `pip` package management tool
 - MongoDB Community Edition (avaliable from [the Mongo website](https://mongodb.com/download-center/community)). Tested as working with version 4.0.10.
 - WAV audio decoder thing on linux???
@@ -23,7 +23,7 @@ You can download the software from the [GitHub releases page](https://github.com
 Alternatively, if you know what you're doing, you can clone using `git` for easier updates in the future:
 
     $ git clone https://github.com/angussidney/bell-scheduler.git
-    
+
 ### Installing dependencies
 First, create a virtual environment to avoid conflicts with other programs.
 
@@ -38,10 +38,16 @@ Check to make sure that the activation was successful by confirming that the Pyt
 
     $ which python
     /path/to/folder/bell-scheduler/env/bin/python
-    
+
 Using `pip`, automatically install the required dependencies using the following command:
 
     $ pip install -r requirements.txt --upgrade
-    
+
 ### Configuring the program
-    
+ - Creating first admin user
+ - Run database setup script
+
+### Running the application
+ - addresses for localhost/local network
+ - flask run command
+ - see 'getting started' guide for users

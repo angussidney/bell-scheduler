@@ -15,7 +15,7 @@ Features include:
 
 ## Documentation
 
- - User's Guide
- - Installation
+ - [User's Guide](getting_started.md)
+ - [Installation](installation.md)
  - Configuration
  - Developers
