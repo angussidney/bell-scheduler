@@ -6,3 +6,11 @@
     display: inline;
     width: revert;
 }
+
+.date_ranges .form-checkbox {
+    margin-left: 1rem;
+}
+
+.date_ranges {
+    margin-bottom: 0.5rem;
+}

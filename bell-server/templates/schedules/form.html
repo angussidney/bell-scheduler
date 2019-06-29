@@ -11,8 +11,43 @@
             </div>
         </div>
 
-        <label class="form-label" for="date0">Apply custom schedule to:</label>
+        {% include "_bells.html" %}
+
+        <label class="form-label" for="date0">Apply custom schedule the following set of dates:</label>
         <ul>
+            <li class="date_range">
+                <label class="form-label" for="date0"></label>
+            </li>
+            <li class="date_ranges">
+                <label class="form-label" for="date0"><span id="adjust0"></span></label>
+                <input type="date" class="form-input" name="date0" id="date0">
+                <label class="form-checkbox">
+                    <input type="checkbox" onclick="toggle_end(0)">
+                    <i class="form-icon"></i>
+                    and run until
+                </label>
+                <input type="date" class="form-input" name="end0" id="end0" disabled>
+            </li>
+            <li class="date_ranges">
+                <label class="form-label" for="date0"><span id="adjust0">Date</span></label>
+                <input type="date" class="form-input" name="date0" id="date0">
+                <label class="form-checkbox">
+                    <input type="checkbox" onclick="toggle_end(0)">
+                    <i class="form-icon"></i>
+                    and run until
+                </label>
+                <input type="date" class="form-input" name="end0" id="end0" disabled>
+            </li>
+            <li class="date_ranges">
+                <label class="form-label" for="date0"><span id="adjust0">Date</span></label>
+                <input type="date" class="form-input" name="date0" id="date0">
+                <label class="form-checkbox">
+                    <input type="checkbox" onclick="toggle_end(0)">
+                    <i class="form-icon"></i>
+                    running until
+                </label>
+                <input type="date" class="form-input" name="end0" id="end0" disabled>
+            </li>
             <li class="date_ranges">
                 <label class="form-label" for="date0"><span id="adjust0">Date</span></label>
                 <input type="date" class="form-input" name="date0" id="date0">
@@ -23,9 +58,28 @@
                 </label>
                 <input type="date" class="form-input" name="end0" id="end0" disabled>
             </li>
+            <li class="date_ranges">
+                <label class="form-label" for="date0"><span id="adjust0">Date</span></label>
+                <input type="date" class="form-input" name="date0" id="date0">
+                <label class="form-checkbox">
+                    <input type="checkbox" onclick="toggle_end(0)">
+                    <i class="form-icon"></i>
+                    ending at
+                </label>
+                <input type="date" class="form-input" name="end0" id="end0" disabled>
+            </li>
+            <li class="date_ranges">
+                <label class="form-label" for="date0"><span id="adjust0">Start date</span></label>
+                <input type="date" class="form-input" name="date0" id="date0">
+                <label class="form-checkbox">
+                    <input type="checkbox" onclick="toggle_end(0)">
+                    <i class="form-icon"></i>
+                    End date
+                </label>
+                <input type="date" class="form-input" name="end0" id="end0" disabled>
+            </li>
         </ul>
-
-        {% include "_bells.html" %}
+        <button type="button" class="btn btn-primary add_margin">+ Add new date or date range</button>
     </form>
 
 {% endblock %}
