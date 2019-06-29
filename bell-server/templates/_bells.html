@@ -13,9 +13,7 @@
             </thead>
             <tbody id="bell-list">
                 <tr>
-                    <td>08:47</td>
-                    <td>Period 1</td>
-                    <td>Default</td>
+                    <td colspan="3" class="text-center"><em>There are currently no bells scheduled.</em></td>
                 </tr>
             </tbody>
         </table>
@@ -33,6 +31,7 @@
                 </select>
                 <div class="column col-2"></div>
                 <button class="btn btn-primary column col-1" type="button" id="add" onclick="add_bells()">Add</button>
+                <div class="has-error"><span class="form-input-hint d-hide" id="add_warnings"></span></div>
             </div>
         </div>
         <div id="editexisting" class="d-hide">

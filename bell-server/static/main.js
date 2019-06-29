@@ -15,10 +15,19 @@ function Bell(time, name, sound, sound_id) {
     }
 }
 
-function get_bell(bell_name) {
+function get_bell_by_name(bell_name) {
     for (let bell of all_bells) {
         if (bell.name === bell_name) {
-            return bell
+            return bell;
+        }
+    }
+    return null;
+}
+
+function get_bell_by_time(time) {
+    for (let bell of all_bells) {
+        if (bell.time === time) {
+            return bell;
         }
     }
     return null;
@@ -63,47 +72,73 @@ function render_bells(data) {
         }
     } else if (document.querySelector("#addnew #bell-name").value === "") {
         // Table is actually empty
-        bell_list_el.innerHTML = "<tr><td colspan='3' style='text-align: center'><em>There are currently no bells scheduled.</em></td></tr>"
+        bell_list_el.innerHTML = "<tr><td colspan='3' class='text-center'><em>There are currently no bells scheduled.</em></td></tr>"
     } else {
-        bell_list_el.innerHTML = "<tr><td colspan='3' style='text-align: center'><em>You are currently editing the only bell.</em></td></tr>"
+        bell_list_el.innerHTML = "<tr><td colspan='3' class='text-center'><em>You are currently editing the only bell.</em></td></tr>"
     }
+}
+
+function report_error(el, text) {
+    let warn = document.getElementById('add_warnings');
+    warn.classList.remove('d-hide');
+    warn.innerText = text;
+
+    el.dispatchEvent(new Event('invalid'));
+    el.classList.add('is-error');
 }
 
 function add_bells() {
     // Get data from form
-    let time = document.querySelector("#addnew #bell-time").value;
-    let name = document.querySelector("#addnew #bell-name").value;
+    let time = document.querySelector("#addnew #bell-time");
+    let name = document.querySelector("#addnew #bell-name");
     let file = document.querySelector("#addnew #bell-file");
 
     // TODO: Disallow same name/same time, or empty fields
     // time.setCustomValidity("No two bells can be scheduled for the same time");
     // name.setCustomValidity("No two bells can have the same name");
 
-    // Sort into list
-    let new_bell = new Bell(time, name, file.options[file.selectedIndex].text, file.value);
-    let inserted = false;
-    for (let i = 0; i < all_bells.length; i++) {
-        if (all_bells[i].time > new_bell.time) {
-            all_bells = all_bells.slice(0, i).concat(new_bell, all_bells.slice(i));
-            inserted = true;
-            break;
-        }
-    }
-    if (!inserted) {
-        all_bells.push(new_bell);
-    }
+    // Remove warnings
+    time.classList.remove('is-error');
+    name.classList.remove('is-error');
+    document.getElementById('add_warnings').classList.add('d-hide');
 
-    // Clear form and render data
-    document.querySelector("#addnew #bell-time").value = "";
-    document.querySelector("#addnew #bell-name").value = "";
-    document.querySelector("#addnew #bell-file").selectedIndex = 0;
-    document.getElementById("add").innerHTML = "Add";
-    render_bells(all_bells);
+    if (time.value === "") {
+        report_error(time, "Please fill out this field.");
+    } else if (!time.checkValidity()) {
+        report_error(time, "That is not a valid time format. Please use 24-hour time e.g. 13:55");
+    } else if (get_bell_by_time(time.value)) {
+        report_error(time, "There is already a bell scheduled for that time.");
+    } else if (name.value === "") {
+        report_error(name, "Please fill out this field.");
+    } else if (get_bell_by_name(name.value)) {
+        report_error(name, "There is already a bell with that name.");
+    } else { // All fields are valid
+        // Sort into list
+        let new_bell = new Bell(time.value, name.value, file.options[file.selectedIndex].text, file.value);
+        let inserted = false;
+        for (let i = 0; i < all_bells.length; i++) {
+            if (all_bells[i].time > new_bell.time) {
+                all_bells = all_bells.slice(0, i).concat(new_bell, all_bells.slice(i));
+                inserted = true;
+                break;
+            }
+        }
+        if (!inserted) {
+            all_bells.push(new_bell);
+        }
+
+        // Clear form and render data
+        time.value = "";
+        name.value = "";
+        file.selectedIndex = 0;
+        document.getElementById("add").innerHTML = "Add";
+        render_bells(all_bells);
+    }
 }
 
 function edit_bells() {
     // Prefill the 'add new' form
-    let bell = get_bell(selected_bells[0]);
+    let bell = get_bell_by_name(selected_bells[0]);
     document.querySelector("#addnew #bell-time").value = bell.time;
     document.querySelector("#addnew #bell-name").value = bell.name;
     document.querySelector("#addnew #bell-file").value = bell.sound_id;
@@ -196,10 +231,4 @@ function hide_this(ev) {
 
 function change_action(form_id, url) {
     document.getElementById(form_id).setAttribute("action", url);
-}
-
-function toggle_end(index) {
-    let id = "end" + index;
-    let el = document.getElementById(id);
-    el.disabled = !el.disabled;
 }

@@ -1,9 +1,13 @@
 {% extends "base.html" %}
 
+{% block extra_resources %}
+    <script src="{{ url_for('static', filename='schedules/create.js') }}" defer></script>
+{% endblock %}
+
 {% block content %}
     <h1>{% block title %}Create new schedule{% endblock %}</h1>
 
-    <form method="post" action="{{ url_for("schedule.create") }}" onsubmit="assemble_data()" class="form-horizontal" id="template_form">
+    <form method="post" action="{{ url_for("schedule.create") }}" onsubmit="assemble_data(); complete_single_dates()" class="form-horizontal" id="template_form">
         <div class="form-group add_margin"> <!-- Name -->
             <div class="col-4 col-sm-12"><label class="form-label" for="name">Name</label></div>
             <div class="col-8 col-sm-12">
@@ -13,73 +17,53 @@
 
         {% include "_bells.html" %}
 
-        <label class="form-label" for="date0">Apply custom schedule the following set of dates:</label>
-        <ul>
-            <li class="date_range">
-                <label class="form-label" for="date0"></label>
-            </li>
-            <li class="date_ranges">
-                <label class="form-label" for="date0"><span id="adjust0"></span></label>
-                <input type="date" class="form-input" name="date0" id="date0">
-                <label class="form-checkbox">
-                    <input type="checkbox" onclick="toggle_end(0)">
-                    <i class="form-icon"></i>
-                    and run until
-                </label>
-                <input type="date" class="form-input" name="end0" id="end0" disabled>
-            </li>
-            <li class="date_ranges">
-                <label class="form-label" for="date0"><span id="adjust0">Date</span></label>
-                <input type="date" class="form-input" name="date0" id="date0">
-                <label class="form-checkbox">
-                    <input type="checkbox" onclick="toggle_end(0)">
-                    <i class="form-icon"></i>
-                    and run until
-                </label>
-                <input type="date" class="form-input" name="end0" id="end0" disabled>
-            </li>
-            <li class="date_ranges">
-                <label class="form-label" for="date0"><span id="adjust0">Date</span></label>
-                <input type="date" class="form-input" name="date0" id="date0">
-                <label class="form-checkbox">
-                    <input type="checkbox" onclick="toggle_end(0)">
-                    <i class="form-icon"></i>
-                    running until
-                </label>
-                <input type="date" class="form-input" name="end0" id="end0" disabled>
-            </li>
-            <li class="date_ranges">
-                <label class="form-label" for="date0"><span id="adjust0">Date</span></label>
-                <input type="date" class="form-input" name="date0" id="date0">
-                <label class="form-checkbox">
-                    <input type="checkbox" onclick="toggle_end(0)">
-                    <i class="form-icon"></i>
-                    End date
-                </label>
-                <input type="date" class="form-input" name="end0" id="end0" disabled>
-            </li>
-            <li class="date_ranges">
-                <label class="form-label" for="date0"><span id="adjust0">Date</span></label>
-                <input type="date" class="form-input" name="date0" id="date0">
-                <label class="form-checkbox">
-                    <input type="checkbox" onclick="toggle_end(0)">
-                    <i class="form-icon"></i>
-                    ending at
-                </label>
-                <input type="date" class="form-input" name="end0" id="end0" disabled>
-            </li>
-            <li class="date_ranges">
-                <label class="form-label" for="date0"><span id="adjust0">Start date</span></label>
-                <input type="date" class="form-input" name="date0" id="date0">
-                <label class="form-checkbox">
-                    <input type="checkbox" onclick="toggle_end(0)">
-                    <i class="form-icon"></i>
-                    End date
-                </label>
-                <input type="date" class="form-input" name="end0" id="end0" disabled>
-            </li>
-        </ul>
-        <button type="button" class="btn btn-primary add_margin">+ Add new date or date range</button>
+        <label class="form-label" for="date0">Apply the custom schedule the following set of dates:</label>
+        <ul id="dates_list"></ul>
+        <div class="add_margin">
+            <button type="button" class="btn add_margin" onclick="add_single_date()">Add single date</button>
+            <button type="button" class="btn add_margin" onclick="add_date_range()">Add date range</button>
+        </div>
+
+        <button type="button" id="discard" onclick="toggle_modal('discard_modal')" class="btn btn-error">Discard</button>
+        <div class="modal" id="discard_modal">
+            <a onclick="toggle_modal('discard_modal')" class="modal-overlay" aria-label="Close"></a>
+            <div class="modal-container">
+                <div class="modal-header">
+                    <a onclick="toggle_modal('discard_modal')" class="btn btn-clear float-right" aria-label="Close"></a>
+                    <div class="modal-title h5">Discard data</div>
+                </div>
+                <div class="modal-body">
+                    <div class="content">
+                        Are you sure you would like to discard all {% block verb %}{% endblock %}?
+                    </div>
+                </div>
+                <div class="modal-footer">
+                    <a href="{{ url_for("schedule.index") }}" class="btn btn-error float-left">Discard</a>
+                    <button type="button" class="btn btn-primary" onclick="toggle_modal('discard_modal')">Continue editing</button>
+                </div>
+            </div>
+        </div>
+
+        <button type="button" id="save" onclick="toggle_modal('save_modal')" class="btn btn-primary float-right add_margin">{% block savebutton %}{% endblock %}</button>
+        <div class="modal" id="save_modal">
+            <a onclick="toggle_modal('save_modal')" class="modal-overlay" aria-label="Close"></a>
+            <div class="modal-container">
+                <div class="modal-header">
+                    <a onclick="toggle_modal('save_modal')" class="btn btn-clear float-right" aria-label="Close"></a>
+                    <div class="modal-title h5">Confirm submission</div>
+                </div>
+                <div class="modal-body">
+                    <div class="content" id="warnings">
+                        {% block warnings %}{% endblock %}
+                        Are you sure you would like to create the custom schedule and apply it to the selected dates?
+                    </div>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn float-left" onclick="toggle_modal('save_modal')">Continue editing</button>
+                    <button type="submit" class="btn btn-primary" onclick="toggle_modal('save_modal'); check_dates()">Save</button>
+                </div>
+            </div>
+        </div>
     </form>
 
 {% endblock %}

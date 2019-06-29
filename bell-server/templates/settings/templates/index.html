@@ -1,7 +1,7 @@
 {% extends "base.html" %}
 
 {% block content %}
-    <h1>Default Templates</h1>
+    <h1>{% block title %}Default Templates{% endblock %}</h1>
 
     <form method="post" action="/settings/templates" class="form-horizontal" id="default_settings">
         {% for index, day in days %}

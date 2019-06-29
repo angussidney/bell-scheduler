@@ -2,15 +2,13 @@
     margin-bottom: 1rem !important;
 }
 
-.date_ranges > input, .date_ranges > label {
+.date_range > input, .date_range > label,
+.single_date > input, .single_date > label {
     display: inline;
     width: revert;
+    margin-right: 0.5rem;
 }
 
-.date_ranges .form-checkbox {
-    margin-left: 1rem;
-}
-
-.date_ranges {
+.date_range, .single_date {
     margin-bottom: 0.5rem;
 }

@@ -39,16 +39,18 @@
                 <a href="{{ url_for("users.logout") }}" class="btn btn-link">Logout</a>
             </section>
         </header>
-        {% with messages = get_flashed_messages(with_categories=true) %}
-            {% if messages %}
-                {% for category, message in messages %}
-                    <div class="toast toast-{{ category }}">
-                      <button class="btn btn-clear float-right" onclick="hide_this(event)"></button>
-                      {{ message }}
-                    </div>
-                {% endfor %}
-            {% endif %}
-        {% endwith %}
+        <div class="add_margin">
+            {% with messages = get_flashed_messages(with_categories=true) %}
+                {% if messages %}
+                    {% for category, message in messages %}
+                        <div class="toast toast-{{ category }}">
+                          <button class="btn btn-clear float-right" onclick="hide_this(event)"></button>
+                          {{ message }}
+                        </div>
+                    {% endfor %}
+                {% endif %}
+            {% endwith %}
+        </div>
         {% block content %}{% endblock %}
     </div>
 </body>
