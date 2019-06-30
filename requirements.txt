@@ -11,11 +11,15 @@ flask-mongoengine==0.9.5
 Flask-Principal==0.4.0
 Flask-Security==3.0.0
 Flask-WTF==0.14.2
+ipywidgets>=7.2
 itsdangerous==1.1.0
 Jinja2==2.10.1
+jupyterlab==0.35
 MarkupSafe==1.1.1
 mongoengine==0.18.0
+notebook>=5.3
 passlib==1.7.1
+plotly==3.10.0
 pycparser==2.19
 pymongo==3.8.0
 pytz==2019.1
