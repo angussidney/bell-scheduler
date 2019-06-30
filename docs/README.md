@@ -1,5 +1,7 @@
 # Bell Scheduler
 
+## NOTE! This is an incomplete project.
+
 Bell Scheduler is a program which allows you easily program and schedule bells via an intuitive web interface. It is perfect for schools and workplaces which require a flexible, reliable and low-maintenance bell management solution.
 
 <a href="https://angussidney.github.io/bell-scheduler/" style="display: none;">Read this documentation in the documentation viewer!</a>
