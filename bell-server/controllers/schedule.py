@@ -1,5 +1,5 @@
 from flask import (
-    Blueprint, render_template, request, flash, redirect, url_for
+    Blueprint, render_template, request, flash, redirect, url_for, jsonify
 )
 from models import CustomSchedule, Bell, Sound, Defaults
 from datetime import datetime, timedelta
@@ -10,6 +10,18 @@ bp = Blueprint('schedule', __name__, url_prefix='/schedule')
 @bp.route('/')
 def index():
     return render_template("schedules/index.html")
+
+
+@bp.route('/list.json')
+def list_json():
+    start = datetime.strptime(request.args['start'][:10], "%Y-%m-%d").date()
+    end = datetime.strptime(request.args['end'][:10], "%Y-%m-%d").date()
+    schedules = CustomSchedule.objects(date__gte=start, date__lt=end)
+    return jsonify([{
+            'id': str(s.id),
+            'title': s.name,
+            'start': s.date.strftime('%Y-%m-%d')
+        } for s in schedules])
 
 
 @bp.route('/create', methods=('GET', 'POST'))
@@ -40,7 +52,7 @@ def create():
             sound_ids = [i if i != "default" else None
                          for i in request.form.getlist('bell_sound_ids')]
             s.bells = [Bell(time=b[0], name=b[1], sound=b[2])
-                     for b in zip(times, names, sound_ids)]
+                       for b in zip(times, names, sound_ids)]
             map(lambda bell: bell.save(), s.bells)
 
             s.save()

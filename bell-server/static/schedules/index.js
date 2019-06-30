@@ -4,7 +4,8 @@ document.addEventListener('DOMContentLoaded', function() {
     let calendar = new FullCalendar.Calendar(calendarEl, {
         plugins: ['dayGrid', 'interaction'],
         defaultView:'dayGridMonth',
-        selectable: true
+        selectable: true,
+        events: '/schedule/list.json'
     });
 
     calendar.render();
