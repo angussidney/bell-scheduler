@@ -4,10 +4,11 @@
     <meta name="viewport" content="width=device-width,initial-scale=1">
 
     <title>{% block title %}{% endblock %} - Bell Scheduler</title>
+    <link rel="shortcut icon" href="{{ url_for('static', filename='favicon.ico') }}">
 
     {% block extra_resources %}{% endblock %}
 
-    {% if config['ENV'] == 'development'  %}
+    {% if config['ENV'] == 'development' %}
         <link rel="stylesheet" href="{{ url_for('static', filename='vendor/spectre/spectre.css') }}">
         <link rel="stylesheet" href="{{ url_for('static', filename='vendor/spectre/icons.css') }}">
         <script src="{{ url_for('static', filename='vendor/cleave/cleave.js') }}" defer></script>
@@ -21,36 +22,49 @@
     <script src="{{ url_for('static', filename='main.js') }}" defer></script>
 </head>
 <body>
-    <div class="container grid-lg">
-        <header class="navbar add_margin">
+<div class="container grid-lg">
+    <header class="navbar add_margin">
+        {% if current_user.is_authenticated %}
             <section class="navbar-section">
                 <a href="{{ url_for("dashboard.index") }}" class="btn btn-link">Dashboard</a>
                 <a href="{{ url_for("templates.index") }}" class="btn btn-link">Templates</a>
                 <a href="{{ url_for("schedule.index") }}" class="btn btn-link">Schedule</a>
-            </section>
-            <section class="navbar-center navbar-brand">
-                <!-- TODO add logo here -->
-                <a href="{{ url_for("dashboard.index") }}" class="btn btn-link">Bell Scheduler</a>
-            </section>
-            <section class="navbar-section">
                 <a href="{{ url_for("settings.list_sounds") }}" class="btn btn-link">Sounds</a>
-                <a href="{{ url_for("settings.backups") }}" class="btn btn-link">Backup</a>
-                <a href="{{ url_for("users.list_users") }}" class="btn btn-link">Users</a>
-                <a href="{{ url_for("users.logout") }}" class="btn btn-link">Logout</a>
             </section>
-        </header>
-        <div class="add_margin">
-            {% with messages = get_flashed_messages(with_categories=true) %}
-                {% if messages %}
-                    {% for category, message in messages %}
-                        <div class="toast toast-{{ category }}">
-                          <button class="btn btn-clear float-right" onclick="hide_this(event)"></button>
-                          {{ message }}
-                        </div>
-                    {% endfor %}
+        {% else %}
+            <section class="navbar-section"></section>
+        {% endif %}
+        <section class="navbar-center navbar-brand">
+            <!-- TODO add logo here -->
+            <a href="{{ url_for("dashboard.index") }}" class="btn btn-link text-dark">Bell Scheduler</a>
+        </section>
+        {% if current_user.is_authenticated %}
+            <section class="navbar-section">
+                {% if current_user.has_role('admin') %}
+                    <a href="{{ url_for("settings.backups") }}" class="btn btn-link">Backup</a>
+                    <a href="{{ url_for("users.list_users") }}" class="btn btn-link">Users</a>
                 {% endif %}
-            {% endwith %}
-        </div>
-        {% block content %}{% endblock %}
-    </div>
+                <a href="{{ url_for("security.change_password") }}" class="btn btn-link">Change Password</a>
+                <a href="{{ url_for("security.logout") }}" class="btn btn-link">Logout</a>
+            </section>
+        {% else %}
+            <section class="navbar-section">
+                <a href="{{ url_for("security.login") }}" class="btn btn-link">Login</a>
+            </section>
+        {% endif %}
+    </header>
+
+    {% with messages = get_flashed_messages(with_categories=true) %}
+        {% if messages %}
+            {% for category, message in messages %}
+                <div class="toast toast-{{ category }} add_margin">
+                    <button class="btn btn-clear float-right" onclick="hide_this(event)"></button>
+                    {{ message }}
+                </div>
+            {% endfor %}
+        {% endif %}
+    {% endwith %}
+
+    {% block content %}{% endblock %}
+</div>
 </body>

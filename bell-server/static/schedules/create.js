@@ -1,5 +1,5 @@
-document.addEventListener("DOMContentLoaded", function() {
-    document.querySelectorAll('input[type="date"]').forEach(function(el) {
+document.addEventListener("DOMContentLoaded", function () {
+    document.querySelectorAll('input[type="date"]').forEach(function (el) {
         el.setAttribute('min', new Date().toISOString().split("T")[0]);
         new Cleave(el, {
             date: true,
@@ -14,8 +14,8 @@ document.addEventListener("DOMContentLoaded", function() {
 let dates_list = document.getElementById('dates_list');
 let next_index = 0;
 let empty_text = "<li>" +
-                     "<em>You have not added any dates. Please add at least one date or date range using the buttons below.</em>" +
-                 "</li>";
+    "<em>You have not added any dates. Please add at least one date or date range using the buttons below.</em>" +
+    "</li>";
 let empty = false;
 
 function add_single_date() {
@@ -23,10 +23,10 @@ function add_single_date() {
         dates_list.innerHTML = "";
     }
     let html = '<li class="single_date">' +
-                 '<label class="form-label" for="start' + next_index + '">Single date:</label>' +
-                 '<input type="date" class="form-input" name="start" id="start' + next_index + '" placeholder="yyyy-mm-dd" pattern="[0-9]{4}-(0[1-9]|1[012])-(0[1-9]|[12][0-9]|3[01])" min="' + new Date().toISOString().split("T")[0] + '" required>' +
-                 '<button type="button" class="btn btn-link btn-action btn-lg text-error" onclick="delete_date(event)"><i class="icon icon-close"></i></button>' +
-               '</li>';
+        '<label class="form-label" for="start' + next_index + '">Single date:</label>' +
+        '<input type="date" class="form-input" name="start" id="start' + next_index + '" placeholder="yyyy-mm-dd" pattern="[0-9]{4}-(0[1-9]|1[012])-(0[1-9]|[12][0-9]|3[01])" min="' + new Date().toISOString().split("T")[0] + '" required>' +
+        '<button type="button" class="btn btn-link btn-action btn-lg text-error" onclick="delete_date(event)"><i class="icon icon-close"></i></button>' +
+        '</li>';
     dates_list.insertAdjacentHTML('beforeend', html);
     next_index += 1;
     empty = false;
@@ -37,12 +37,12 @@ function add_date_range() {
         dates_list.innerHTML = "";
     }
     let html = '<li class="date_range">' +
-                 '<label class="form-label" for="start' + next_index + '">From:</label>' +
-                 '<input type="date" class="form-input" name="start" id="start' + next_index + '" placeholder="yyyy-mm-dd" pattern="[0-9]{4}-(0[1-9]|1[012])-(0[1-9]|[12][0-9]|3[01])" min="' + new Date().toISOString().split("T")[0] + '" required>' +
-                 '<label class="form-label" for="end' + next_index + '">to:</label>' +
-                 '<input type="date" class="form-input" name="end" id="end' + next_index + '" placeholder="yyyy-mm-dd" pattern="[0-9]{4}-(0[1-9]|1[012])-(0[1-9]|[12][0-9]|3[01])" min="' + new Date().toISOString().split("T")[0] + '" required>' +
-                 '<button type="button" class="btn btn-link btn-action btn-lg text-error" onclick="delete_date(event)"><i class="icon icon-close"></i></button>' +
-               '</li>';
+        '<label class="form-label" for="start' + next_index + '">From:</label>' +
+        '<input type="date" class="form-input" name="start" id="start' + next_index + '" placeholder="yyyy-mm-dd" pattern="[0-9]{4}-(0[1-9]|1[012])-(0[1-9]|[12][0-9]|3[01])" min="' + new Date().toISOString().split("T")[0] + '" required>' +
+        '<label class="form-label" for="end' + next_index + '">to:</label>' +
+        '<input type="date" class="form-input" name="end" id="end' + next_index + '" placeholder="yyyy-mm-dd" pattern="[0-9]{4}-(0[1-9]|1[012])-(0[1-9]|[12][0-9]|3[01])" min="' + new Date().toISOString().split("T")[0] + '" required>' +
+        '<button type="button" class="btn btn-link btn-action btn-lg text-error" onclick="delete_date(event)"><i class="icon icon-close"></i></button>' +
+        '</li>';
     dates_list.insertAdjacentHTML('beforeend', html);
     next_index += 1;
     empty = false;

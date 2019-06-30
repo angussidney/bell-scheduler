@@ -1,0 +1,58 @@
+{% extends "base.html" %}
+
+{% block content %}
+    <h1>{% block title %}Backups{% endblock %}</h1>
+
+    <h2>Export backup</h2>
+
+    <p>Click the following button to download a backup of the sounds, templates, custom schedules, and default
+        configuration.</p>
+    <p>Note that user data and the actual sound files themselves (i.e. the <code>.wav</code> files) are not included.
+        <strong>Hence, please ensure that you backup the sound files manually.</strong> You can consult the
+        <a href="{{ docs }}/sounds" target="_blank">documentation</a> for more details.</p>
+
+    <a href="{{ url_for('settings.export_backup') }}" class="btn btn-primary add_margin">Download backup</a>
+
+
+    <h2>Importing backups</h2>
+    <p>To import a backup from file, use the form below. <strong>Please only submit an unmodified backup file which was
+        downloaded directly from this page. <span class="text-error">Any other file can and will break the entire system.</span></strong>
+    </p>
+    <p>Please also note that <strong>all data except for user data will be deleted during this process.</strong></p>
+    <p>Finally, don't forget to manually re-import the <code>.wav</code> files directly to the position they were before
+        the backup. You can consult the <a href="{{ docs }}/sounds" target="_blank">documentation</a> for more details.
+    </p>
+
+    <form method="post" enctype="multipart/form-data" action="{{ url_for('settings.import_backup') }}">
+        <input type="file" accept=".json" name="file" id="file" class="d-block form-input" required>
+        <p>Only <code class="d-inline">.json</code> files will be accepted.</p>
+
+        <button type="button" id="import" onclick="toggle_modal('import_modal')"
+                class="btn btn-error d-block add_margin">Import data
+        </button>
+        <div class="modal" id="import_modal">
+            <a onclick="toggle_modal('import_modal')" class="modal-overlay" aria-label="Close"></a>
+            <div class="modal-container">
+                <div class="modal-header">
+                    <a onclick="toggle_modal('import_modal')" class="btn btn-clear float-right" aria-label="Close"></a>
+                    <div class="modal-title h5">Import data</div>
+                </div>
+                <div class="modal-body">
+                    <div class="content">
+                        <p>Are you sure that you would like to import all of this data? By clicking this button you
+                            accept
+                            that any data that is not backed up will be lost, and the program may break.</p>
+                        <p>Please ensure that you have consulted the
+                            <a href="{{ docs }}/sounds" target="_blank">documentation</a> before
+                            continuing.</p>
+                    </div>
+                </div>
+                <div class="modal-footer">
+                    <button type="submit" class="btn btn-error float-left">Import data</button>
+                    <button type="button" class="btn btn-primary" onclick="toggle_modal('import_modal')">Go Back!
+                    </button>
+                </div>
+            </div>
+        </div>
+    </form>
+{% endblock %}

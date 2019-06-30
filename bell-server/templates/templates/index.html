@@ -6,30 +6,33 @@
     <a class="btn btn-primary add_margin" href="{{ url_for('templates.create') }}">Create new template</a>
 
     <table class="table add_margin">
-        <thead><tr>
+        <thead>
+        <tr>
             <th>Name</th>
             <th>Bells</th>
             <th colspan="2">Actions</th>
-        </tr></thead>
+        </tr>
+        </thead>
         <tbody>
-            {% for template in templates %}
-                <tr>
-                    <td>{{ template.name }}</td>
-                    <td>{{ template.bells | length }}</td>
-                    <td>
-                        <a class="btn btn-link" href="{{ url_for("templates.edit", id=template.id) }}">Edit</a>
-                    </td>
-                    <td {% if template.id in defaults %}class="tooltip tooltip-left" data-tooltip="This template has been set as a default
+        {% for template in templates %}
+            <tr>
+                <td>{{ template.name }}</td>
+                <td>{{ template.bells | length }}</td>
+                <td>
+                    <a class="btn btn-link" href="{{ url_for("templates.edit", id=template.id) }}" disabled>Edit</a>
+                </td>
+                <td {% if template.id in defaults %}class="tooltip tooltip-left" data-tooltip="This template has been set as a default
 template. Please change the default
 templates in order to delete this."{% endif %}>
-                        <button
+                    <button
                             class="btn btn-link text-error"
                             {% if template.id in defaults %}disabled{% endif %}
                             onclick="toggle_modal('delete_modal'); change_action('delete_form', '{{ url_for("templates.delete", id=template.id) }}')"
-                        >Delete</button>
-                    </td>
-                </tr>
-            {% endfor %}
+                    >Delete
+                    </button>
+                </td>
+            </tr>
+        {% endfor %}
         </tbody>
     </table>
 

@@ -1,33 +1,29 @@
-from mongoengine import *
+import mongoengine
 from datetime import datetime
 
 
-class Sound(Document):
-    name = StringField(required=True)
-    filepath = StringField()
+class Sound(mongoengine.Document):
+    name = mongoengine.StringField(required=True, unique=True)
+    filepath = mongoengine.StringField(unique=True)
 
 
-class Bell(EmbeddedDocument):
-    time = StringField(required=True)
-    name = StringField(required=True)
-    sound = ObjectIdField()
+class Bell(mongoengine.EmbeddedDocument):
+    time = mongoengine.StringField(required=True)
+    name = mongoengine.StringField(required=True)
+    sound = mongoengine.ObjectIdField()
 
 
-class BellSchedule(Document):
-    name = StringField(required=True)  # Human readable name
-    bells = EmbeddedDocumentListField(Bell)
-
-    meta = {'allow_inheritance': True}
+class Template(mongoengine.Document):
+    name = mongoengine.StringField(required=True, unique=True)
+    bells = mongoengine.EmbeddedDocumentListField(Bell)
 
 
-class Template(Document):
-    pass
+class CustomSchedule(mongoengine.Document):
+    name = mongoengine.StringField(required=True)
+    bells = mongoengine.EmbeddedDocumentListField(Bell)
+    date = mongoengine.DateField(default=datetime.now().date, required=True, unique=True)
 
 
-class CustomSchedule(Document):
-    date = DateField(default=datetime.now().date, required=True)
-
-
-class Defaults(Document):
-    sound = ObjectIdField()
-    daily_templates = ListField(ObjectIdField())
+class Defaults(mongoengine.Document):
+    sound = mongoengine.ObjectIdField()
+    daily_templates = mongoengine.ListField(mongoengine.ObjectIdField())

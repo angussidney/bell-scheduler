@@ -1,0 +1,17 @@
+{% extends "base.html" %}
+
+{% block content %}
+    <h1>{% block title %}Password reset{% endblock %}</h1>
+
+    <p>The user's password was successfully reset. <strong>Please inform them that their new password is as
+        follows:</strong></p>
+
+    <pre><code>{{ password }}</code></pre>
+
+    <p>Please note that this is only a temporary password, and the user will be prompted to reset it after their first
+        login.</p>
+
+    <p>Once the user has remembered their password, press this button to go back to the users page:</p>
+
+    <a class="btn btn-primary" href="{{ url_for("users.list_users") }}">I'm finished</a>
+{% endblock %}

@@ -1,12 +1,15 @@
 from flask import (
     Blueprint, redirect, render_template, request, url_for, flash
 )
+from flask_security import login_required
+from flask_login import current_user
 from models import Bell, Template, Sound, Defaults
 
 bp = Blueprint('templates', __name__, url_prefix='/templates')
 
 
 @bp.route('/')
+@login_required
 def index():
     return render_template("templates/index.html",
                            templates=Template.objects.order_by("+name"),
@@ -14,6 +17,7 @@ def index():
 
 
 @bp.route('/create', methods=('GET', 'POST'))
+@login_required
 def create():
     if request.method == 'POST':
         t = Template()
@@ -44,11 +48,13 @@ def create():
 
 
 @bp.route('/<id>/edit', methods=('GET', 'POST'))
+@login_required
 def edit(id):
     return 'Hello World! Editing time!'
 
 
 @bp.route('/<id>/delete', methods=('POST',))
+@login_required
 def delete(id):
     template = Template.objects(id=id).first()
     template.delete()

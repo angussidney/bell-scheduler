@@ -1,7 +1,7 @@
 {% extends "base.html" %}
 
 {% block extra_resources %}
-    {% if config['ENV'] == 'development'  %}
+    {% if config['ENV'] == 'development' %}
         <link rel="stylesheet" href="{{ url_for('static', filename='vendor/fullcalendar/core/main.css') }}">
         <link rel="stylesheet" href="{{ url_for('static', filename='vendor/fullcalendar/daygrid/main.css') }}">
         <script src="{{ url_for('static', filename='vendor/fullcalendar/core/main.js') }}" defer></script>
@@ -24,11 +24,44 @@
 
     <div class="divider text-center" data-content="OR"></div>
 
-    <p>Alternatively, select one or more dates on the calendar below: (you can select multiple dates by clicking and dragging)</p>
+    <p>Alternatively, select one or more dates on the calendar below: (you can select multiple dates by clicking and
+        dragging)</p>
 
     <div id="calendar" class="add_margin"></div>
 
+    <form action="{{ url_for("schedule.delete") }}" method="post">
+        <input type="hidden" id="start" name="start">
+        <input type="hidden" id="end" name="end">
+
+        <button type="button" class="btn btn-error add_margin d-hide" id="delete_button" onclick="toggle_modal('delete_modal')">
+            Delete schedules from selected dates
+        </button>
+        <div class="modal" id="delete_modal">
+            <a onclick="toggle_modal('delete_modal')" class="modal-overlay" aria-label="Close"></a>
+            <div class="modal-container">
+                <div class="modal-header">
+                    <a onclick="toggle_modal('delete_modal')" class="btn btn-clear float-right" aria-label="Close"></a>
+                    <div class="modal-title h5">Delete schedules</div>
+                </div>
+                <div class="modal-body">
+                    <div class="content">
+                        Are you sure you would like to delete any schedules present on <strong>all</strong> of the
+                        selected dates? This action is permanent and cannot be undone.
+                    </div>
+                </div>
+                <div class="modal-footer">
+                    <form action="" method="post" id="delete_form">
+                        <button class="btn btn-error float-left">Delete schedules</button>
+                    </form>
+                    <button type="button" class="btn btn-primary" onclick="toggle_modal('delete_modal')">Cancel</button>
+                </div>
+            </div>
+        </div>
+    </form>
+
     <form action="{{ url_for("schedule.create") }}" method="post" onsubmit="extract_days()">
-        <button type="submit" class="btn btn-primary add_margin">Create custom schedule for selected dates</button>
+        <button type="submit" class="btn btn-primary add_margin" disabled>
+            Create custom schedule for selected dates
+        </button>
     </form>
 {% endblock %}

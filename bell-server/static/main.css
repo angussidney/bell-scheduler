@@ -12,3 +12,17 @@
 .date_range, .single_date {
     margin-bottom: 0.5rem;
 }
+
+#todays_schedule {
+    border: none;
+    font-size: 1rem;
+}
+
+#todays_schedule tr.text-primary {
+    font-size: 1.2rem;
+}
+
+#todays_schedule td {
+    padding-bottom: 0.7rem;
+    padding-right: 1rem;
+}

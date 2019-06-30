@@ -1,0 +1,23 @@
+{% extends "base.html" %}
+
+{% block content %}
+    <h1>{% block title %}Login{% endblock %}</h1>
+
+    <form method="POST" action="{{ url_for_security('login') }}" class="container add_margin">
+        {{ login_user_form.hidden_tag() }}
+        <div class="columns">
+            <div class="column col-4 col-lg-6 col-sm-12">
+                <label class="form-label" for="email">Email</label>
+                <input type="email" class="form-input" name="email" id="email" required>
+                <label class="form-label" for="password">Password</label>
+                <input type="password" class="form-input" name="password" id="password" required>
+                <label class="form-checkbox">
+                    <input type="checkbox" name="remember" value="y">
+                    <i class="form-icon"></i> Remember me
+                </label>
+                <button type="submit">Login</button>
+            </div>
+        </div>
+    </form>
+    <p><em>Forgot your password? Ask your IT administrator to reset it.</em></p>
+{% endblock %}

@@ -1,4 +1,5 @@
-from flask import Flask
+from flask import Flask, url_for
+from flask_security import Security, MongoEngineUserDatastore
 import os
 
 from helpers import system_wide_template_variables
@@ -13,11 +14,25 @@ def create_app(test_config=None):
             'db': 'bell_server'
         },
         MAX_CONTENT_LENGTH=(16 * 1024 * 1024),
-        UPLOAD_FOLDER=os.path.join(app.instance_path, "data", "sounds")
+        UPLOAD_FOLDER=os.path.join(app.instance_path, "data"),
+
+        SECURITY_PASSWORD_SALT="dev",
+        SECURITY_CONFIRMABLE=False,
+        SECURITY_CHANGEABLE=True,
+        SECURITY_SEND_REGISTER_EMAIL=False,
+        SECURITY_SEND_PASSWORD_CHANGE_EMAIL=False,
+        SECURITY_SEND_PASSWORD_RESET_EMAIL=False,
+        SECURITY_SEND_PASSWORD_RESET_NOTICE_EMAIL=False,
+        SECURITY_POST_LOGIN_VIEW="users.check_password",
+        SECURITY_POST_CHANGE_VIEW="users.successful_reset",
+
+        SECURITY_MSG_LOGIN=('Please log in to access this page.', 'error')
     )
 
-    from models import db
+    from models import db, User, Role
     db.init_app(app)
+    user_datastore = MongoEngineUserDatastore(db, User, Role)
+    security = Security(app, user_datastore)
 
     if test_config is None:
         # load the instance config, if it exists, when not testing

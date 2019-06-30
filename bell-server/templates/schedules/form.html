@@ -7,7 +7,8 @@
 {% block content %}
     <h1>{% block title %}Create new schedule{% endblock %}</h1>
 
-    <form method="post" action="{{ url_for("schedule.create") }}" onsubmit="assemble_data(); complete_single_dates()" class="form-horizontal" id="template_form">
+    <form method="post" action="{{ url_for("schedule.create") }}" onsubmit="assemble_data(); complete_single_dates()"
+          class="form-horizontal" id="template_form">
         <div class="form-group add_margin"> <!-- Name -->
             <div class="col-4 col-sm-12"><label class="form-label" for="name">Name</label></div>
             <div class="col-8 col-sm-12">
@@ -24,7 +25,8 @@
             <button type="button" class="btn add_margin" onclick="add_date_range()">Add date range</button>
         </div>
 
-        <button type="button" id="discard" onclick="toggle_modal('discard_modal')" class="btn btn-error">Discard</button>
+        <button type="button" id="discard" onclick="toggle_modal('discard_modal')" class="btn btn-error">Discard
+        </button>
         <div class="modal" id="discard_modal">
             <a onclick="toggle_modal('discard_modal')" class="modal-overlay" aria-label="Close"></a>
             <div class="modal-container">
@@ -39,12 +41,15 @@
                 </div>
                 <div class="modal-footer">
                     <a href="{{ url_for("schedule.index") }}" class="btn btn-error float-left">Discard</a>
-                    <button type="button" class="btn btn-primary" onclick="toggle_modal('discard_modal')">Continue editing</button>
+                    <button type="button" class="btn btn-primary" onclick="toggle_modal('discard_modal')">Continue
+                        editing
+                    </button>
                 </div>
             </div>
         </div>
 
-        <button type="button" id="save" onclick="toggle_modal('save_modal')" class="btn btn-primary float-right add_margin">{% block savebutton %}{% endblock %}</button>
+        <button type="button" id="save" onclick="toggle_modal('save_modal')"
+                class="btn btn-primary float-right add_margin">{% block savebutton %}{% endblock %}</button>
         <div class="modal" id="save_modal">
             <a onclick="toggle_modal('save_modal')" class="modal-overlay" aria-label="Close"></a>
             <div class="modal-container">
@@ -59,8 +64,11 @@
                     </div>
                 </div>
                 <div class="modal-footer">
-                    <button type="button" class="btn float-left" onclick="toggle_modal('save_modal')">Continue editing</button>
-                    <button type="submit" class="btn btn-primary" onclick="toggle_modal('save_modal'); check_dates()">Save</button>
+                    <button type="button" class="btn float-left" onclick="toggle_modal('save_modal')">Continue editing
+                    </button>
+                    <button type="submit" class="btn btn-primary" onclick="toggle_modal('save_modal'); check_dates()">
+                        Save
+                    </button>
                 </div>
             </div>
         </div>

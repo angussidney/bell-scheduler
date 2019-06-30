@@ -1,0 +1,84 @@
+{% extends "base.html" %}
+
+{% block content %}
+    <h1>{% block title %}Users{% endblock %}</h1>
+
+    <a class="btn btn-primary add_margin" href="{{ url_for('users.create') }}" disabled>Create new user</a>
+
+    <table class="table">
+        <thead>
+        <tr>
+            <th>Email</th>
+            <th>Admin?</th>
+            <th colspan="2">Actions</th>
+        </tr>
+        </thead>
+        <tbody>
+        {% for user in users %}
+            <tr>
+                <td>{{ user.email }}</td>
+                <td>{{ user.has_role('admin') }}</td>
+                {% if user == current_user %}
+                    <td><a class="btn btn-link" href="{{ url_for("security.change_password") }}">Change password</a>
+                    </td>
+                {% else %}
+                    <td>
+                        <button class="btn btn-link"
+                                onclick="toggle_modal('pwd_modal'); change_action('pwd_form', '{{ url_for("users.reset", id=user.id) }}')"
+                        >Password Reset
+                        </button>
+                    </td>
+                {% endif %}
+                <td>
+                    <button class="btn btn-link text-error"
+                            onclick="toggle_modal('delete_modal'); change_action('delete_form', '{{ url_for("users.delete", id=user.id) }}')"
+                    >Delete
+                    </button>
+                </td>
+            </tr>
+        {% endfor %}
+        </tbody>
+    </table>
+
+    <div class="modal" id="pwd_modal">
+        <a onclick="toggle_modal('pwd_modal')" class="modal-overlay" aria-label="Close"></a>
+        <div class="modal-container">
+            <div class="modal-header">
+                <a onclick="toggle_modal('pwd_modal')" class="btn btn-clear float-right" aria-label="Close"></a>
+                <div class="modal-title h5">Reset user password</div>
+            </div>
+            <div class="modal-body">
+                <div class="content">
+                    Are you sure you would like to trigger a password reset?
+                </div>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn float-left" onclick="toggle_modal('pwd_modal')">Cancel</button>
+                <form action="" method="post" id="pwd_form">
+                    <button type="submit" class="btn btn-error">Reset password</button>
+                </form>
+            </div>
+        </div>
+    </div>
+
+    <div class="modal" id="delete_modal">
+        <a onclick="toggle_modal('delete_modal')" class="modal-overlay" aria-label="Close"></a>
+        <div class="modal-container">
+            <div class="modal-header">
+                <a onclick="toggle_modal('delete_modal')" class="btn btn-clear float-right" aria-label="Close"></a>
+                <div class="modal-title h5">Delete user</div>
+            </div>
+            <div class="modal-body">
+                <div class="content">
+                    Are you sure you would like to delete this user? This action is permanent and cannot be undone.
+                </div>
+            </div>
+            <div class="modal-footer">
+                <form action="" method="post" id="delete_form">
+                    <button class="btn btn-error float-left">Delete user</button>
+                </form>
+                <button type="button" class="btn btn-primary" onclick="toggle_modal('delete_modal')">Cancel</button>
+            </div>
+        </div>
+    </div>
+{% endblock %}

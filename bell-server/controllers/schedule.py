@@ -1,6 +1,8 @@
 from flask import (
     Blueprint, render_template, request, flash, redirect, url_for, jsonify
 )
+from flask_security import login_required
+from flask_login import current_user
 from models import CustomSchedule, Bell, Sound, Defaults
 from datetime import datetime, timedelta
 
@@ -8,23 +10,26 @@ bp = Blueprint('schedule', __name__, url_prefix='/schedule')
 
 
 @bp.route('/')
+@login_required
 def index():
     return render_template("schedules/index.html")
 
 
 @bp.route('/list.json')
+@login_required
 def list_json():
     start = datetime.strptime(request.args['start'][:10], "%Y-%m-%d").date()
     end = datetime.strptime(request.args['end'][:10], "%Y-%m-%d").date()
     schedules = CustomSchedule.objects(date__gte=start, date__lt=end)
     return jsonify([{
-            'id': str(s.id),
-            'title': s.name,
-            'start': s.date.strftime('%Y-%m-%d')
-        } for s in schedules])
+        'id': str(s.id),
+        'title': s.name,
+        'start': s.date.strftime('%Y-%m-%d')
+    } for s in schedules])
 
 
 @bp.route('/create', methods=('GET', 'POST'))
+@login_required
 def create():
     if request.method == "POST":
         # TODO: Check that the date isn't in the past
@@ -65,10 +70,20 @@ def create():
 
 
 @bp.route('/<id>/edit', methods=('GET', 'POST'))
+@login_required
 def edit(id):
     return 'Hello World! Editing time!'
 
 
-@bp.route('/<id>/delete', methods=('POST',))
-def delete(id):
-    return 'Hello World! Delete all teh things!'
+@bp.route('/delete', methods=('POST',))
+@login_required
+def delete():
+    start = datetime.strptime(request.form['start'][:10], "%Y-%m-%d").date()
+    end = datetime.strptime(request.form['end'][:10], "%Y-%m-%d").date()
+    schedules = CustomSchedule.objects(date__gte=start, date__lt=end)
+
+    for schedule in schedules:
+        schedule.delete()
+
+    flash("Custom schedules successfully deleted.", "success")
+    return redirect(url_for('schedule.index'))

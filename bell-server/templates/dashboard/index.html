@@ -1,0 +1,41 @@
+{% extends "base.html" %}
+
+{% block extra_resources %}
+    {% if config['ENV'] == 'development' %}
+        <link rel="stylesheet" href="{{ url_for('static', filename='vendor/fullcalendar/core/main.css') }}">
+        <link rel="stylesheet" href="{{ url_for('static', filename='vendor/fullcalendar/daygrid/main.css') }}">
+        <script src="{{ url_for('static', filename='vendor/fullcalendar/core/main.js') }}" defer></script>
+        <script src="{{ url_for('static', filename='vendor/fullcalendar/daygrid/main.js') }}" defer></script>
+    {% else %}
+        <link rel="stylesheet" href="{{ url_for('static', filename='vendor/fullcalendar/core/main.min.css') }}">
+        <link rel="stylesheet" href="{{ url_for('static', filename='vendor/fullcalendar/daygrid/main.min.css') }}">
+        <script src="{{ url_for('static', filename='vendor/fullcalendar/core/main.min.js') }}" defer></script>
+        <script src="{{ url_for('static', filename='vendor/fullcalendar/daygrid/main.min.js') }}" defer></script>
+    {% endif %}
+    <script src="{{ url_for('static', filename='dashboard/index.js') }}" defer></script>
+{% endblock %}
+
+{% block content %}
+    <h1>{% block title %}Dashboard{% endblock %}</h1>
+
+    <h2>{{ datestring }}</h2>
+    <p>Today's Schedule: {{ schedule }}</p>
+    <table id="todays_schedule" class="add_margin">
+        {% for bell, active in bells %}
+            <tr class="{% if active == 'earlier' %}text-gray{% endif %}{% if active == 'next' %}text-primary{% endif %}">
+                <td>{{ bell.time }}</td>
+                <td>{% if active == 'next' %}Next Bell - {% endif %}{{ bell.name }}</td>
+            </tr>
+        {% endfor %}
+        {% if bells|length == 0 %}
+            <tr>
+                <td>There are no bells scheduled for today.</td>
+            </tr>
+        {% endif %}
+    </table>
+
+    <div class="divider add_margin"></div>
+
+    <h2>This week's schedule</h2>
+    <div id="calendar" class="add_margin"></div>
+{% endblock %}
