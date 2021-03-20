@@ -13,7 +13,7 @@ Flask-Security==3.0.0
 Flask-WTF==0.14.2
 #ipywidgets>=7.2
 itsdangerous==1.1.0
-Jinja2==2.10.1
+Jinja2==2.11.3
 #jupyterlab==0.35
 MarkupSafe==1.1.1
 mongoengine==0.18.0
